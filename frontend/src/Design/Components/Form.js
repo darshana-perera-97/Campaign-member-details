@@ -47,7 +47,23 @@ const Form = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
+
+    fetch("http://localhost:5000/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Response:", data);
+        alert("Form submitted successfully!");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("Failed to submit form.");
+      });
   };
 
   return (

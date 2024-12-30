@@ -1,0 +1,26 @@
+[
+  {
+    "name": "darshana Perera",
+    "nic": "972060909V",
+    "mobile1": "0771461925",
+    "mobile2": "",
+    "homeNumber": "",
+    "whatsapp": "0771461925",
+    "address": "28/A\nIhala Kudawewa",
+    "dob": "2024-12-25",
+    "poolingBooth": {
+      "value": "booth1",
+      "label": "Booth 1"
+    },
+    "gsDivision": {
+      "value": "gs1",
+      "label": "GS Division 1"
+    },
+    "agaDivision": {
+      "value": "aga2",
+      "label": "AGA Division 2"
+    },
+    "priority": "3",
+    "connectivity": "sd"
+  }
+]
