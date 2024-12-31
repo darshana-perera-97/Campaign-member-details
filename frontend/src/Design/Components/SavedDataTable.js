@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Modal, Button } from "react-bootstrap";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 const SavedDataTable = () => {
   const [data, setData] = useState([]); // Data from the server
   const [filteredData, setFilteredData] = useState([]); // Filtered data for display
-  const [showModal, setShowModal] = useState(false); // Modal state
   const [filters, setFilters] = useState({
     name: "",
     nic: "",
@@ -14,12 +16,20 @@ const SavedDataTable = () => {
     agaDivision: "",
     priority: "",
   });
+  const [showModal, setShowModal] = useState(false); // Modal state
   const [selectedColumns, setSelectedColumns] = useState({
     name: true,
     nic: true,
+    mobile1: true,
+    mobile2: true,
+    homeNumber: true,
+    whatsapp: true,
+    address: true,
+    dob: true,
     gsDivision: true,
+    poolingBooth: true,
     priority: true,
-  }); // Track selected columns
+  });
 
   // Fetch saved data from the server
   useEffect(() => {
@@ -66,6 +76,38 @@ const SavedDataTable = () => {
     });
     setFilteredData(filtered);
   }, [filters, data]);
+
+  // Handle column selection in modal
+  const handleColumnChange = (e) => {
+    const { name, checked } = e.target;
+    setSelectedColumns({ ...selectedColumns, [name]: checked });
+  };
+
+  // Download PDF
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+    const columns = Object.keys(selectedColumns).filter(
+      (key) => selectedColumns[key]
+    );
+
+    const rows = filteredData.map((entry) =>
+      columns.map((col) => {
+        if (col === "gsDivision" || col === "poolingBooth") {
+          // Extract the label or fallback to a string value
+          return entry[col]?.label || entry[col] || "-";
+        }
+        return entry[col] || "-";
+      })
+    );
+
+    doc.autoTable({
+      head: [columns],
+      body: rows,
+    });
+
+    doc.save("filtered_data.pdf");
+    setShowModal(false);
+  };
 
   return (
     <div className="container mt-4">
@@ -155,10 +197,10 @@ const SavedDataTable = () => {
       <table className="table table-bordered table-striped">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>NIC</th>
-            <th>GS Division</th>
-            <th>Priority</th>
+            {selectedColumns.name && <th>Name</th>}
+            {selectedColumns.nic && <th>NIC</th>}
+            {selectedColumns.gsDivision && <th>GS Division</th>}
+            {selectedColumns.priority && <th>Priority</th>}
             <th>Actions</th>
           </tr>
         </thead>
@@ -166,10 +208,12 @@ const SavedDataTable = () => {
           {filteredData.length > 0 ? (
             filteredData.map((entry, index) => (
               <tr key={index}>
-                <td>{entry.name}</td>
-                <td>{entry.nic}</td>
-                <td>{entry.gsDivision?.label || entry.gsDivision || "-"}</td>
-                <td>{entry.priority}</td>
+                {selectedColumns.name && <td>{entry.name}</td>}
+                {selectedColumns.nic && <td>{entry.nic}</td>}
+                {selectedColumns.gsDivision && (
+                  <td>{entry.gsDivision?.label || entry.gsDivision || "-"}</td>
+                )}
+                {selectedColumns.priority && <td>{entry.priority}</td>}
                 <td>
                   <button
                     className="btn btn-primary btn-sm"
@@ -189,6 +233,46 @@ const SavedDataTable = () => {
           )}
         </tbody>
       </table>
+
+      {/* Download PDF Button */}
+      <button
+        className="btn btn-success mt-3"
+        onClick={() => setShowModal(true)}
+      >
+        Download as PDF
+      </button>
+
+      {/* Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Select Columns for PDF</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {Object.keys(selectedColumns).map((col) => (
+            <div className="form-check" key={col}>
+              <input
+                type="checkbox"
+                name={col}
+                id={col}
+                checked={selectedColumns[col]}
+                onChange={handleColumnChange}
+                className="form-check-input"
+              />
+              <label htmlFor={col} className="form-check-label">
+                {col.charAt(0).toUpperCase() + col.slice(1)}
+              </label>
+            </div>
+          ))}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleDownloadPDF}>
+            Download PDF
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
