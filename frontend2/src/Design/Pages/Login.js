@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import SampleButton from "../Components/SampleButton";
 
 export default function Login({ setIsAuthenticated }) {
   const [username, setUsername] = useState("");
@@ -21,6 +22,7 @@ export default function Login({ setIsAuthenticated }) {
   return (
     <div className="login-container">
       <h2>Login</h2>
+      {/* <SampleButton /> */}
       <form onSubmit={handleLogin}>
         <div className="form-group">
           <label htmlFor="username">Username:</label>
