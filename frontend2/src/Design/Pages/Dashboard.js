@@ -1,5 +1,10 @@
 import React from "react";
+import DashboardCardView from "../Layouts/DashboardCardView";
 
 export default function Dashboard() {
-  return <div>Dashboard</div>;
+  return (
+    <div>
+      <DashboardCardView />
+    </div>
+  );
 }
