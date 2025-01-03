@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Select from "react-select";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { poolingOptions, gsOptions, agaOptions } from "./data";
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -15,27 +16,26 @@ const Form = () => {
     poolingBooth: null,
     gsDivision: null,
     agaDivision: null,
+    communities: [], // New state for Communities
     priority: 5,
     connectivity: "",
   });
 
-  const poolingOptions = [
-    { value: "booth1", label: "Booth 1" },
-    { value: "booth2", label: "Booth 2" },
-    { value: "booth3", label: "Booth 3" },
-  ];
+  const [communityOptions, setCommunityOptions] = useState([]);
 
-  const gsOptions = [
-    { value: "gs1", label: "GS Division 1" },
-    { value: "gs2", label: "GS Division 2" },
-    { value: "gs3", label: "GS Division 3" },
-  ];
-
-  const agaOptions = [
-    { value: "aga1", label: "AGA Division 1" },
-    { value: "aga2", label: "AGA Division 2" },
-    { value: "aga3", label: "AGA Division 3" },
-  ];
+  // Fetch community options
+  React.useEffect(() => {
+    fetch("http://localhost:5000/communities")
+      .then((response) => response.json())
+      .then((data) => {
+        const options = data.map((community) => ({
+          value: community.name,
+          label: community.name,
+        }));
+        setCommunityOptions(options);
+      })
+      .catch((error) => console.error("Error fetching communities:", error));
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -43,6 +43,10 @@ const Form = () => {
 
   const handleSelectChange = (field, selectedOption) => {
     setFormData({ ...formData, [field]: selectedOption });
+  };
+
+  const handleMultiSelectChange = (selectedOptions) => {
+    setFormData({ ...formData, communities: selectedOptions });
   };
 
   const handleSubmit = (e) => {
@@ -55,14 +59,36 @@ const Form = () => {
       },
       body: JSON.stringify(formData),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Response:", data);
+      .then((response) => {
+        if (!response.ok) {
+          if (response.status === 409) {
+            throw new Error("NIC already exists. Please use a unique NIC.");
+          }
+          throw new Error("Failed to submit form. Please try again.");
+        }
+        return response.json();
+      })
+      .then(() => {
         alert("Form submitted successfully!");
+        setFormData({
+          name: "",
+          nic: "",
+          mobile1: "",
+          mobile2: "",
+          homeNumber: "",
+          whatsapp: "",
+          address: "",
+          dob: "",
+          poolingBooth: null,
+          gsDivision: null,
+          agaDivision: null,
+          communities: [],
+          priority: 5,
+          connectivity: "",
+        });
       })
       .catch((error) => {
-        console.error("Error:", error);
-        alert("Failed to submit form.");
+        alert(error.message);
       });
   };
 
@@ -75,7 +101,7 @@ const Form = () => {
         maxWidth: "700px",
       }}
     >
-      <h3 className="text-center text-primary mb-4">User Information Form</h3>
+      <h3 className="text-center text-primary mb-4">User Information Form2</h3>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label">Name</label>
@@ -221,6 +247,16 @@ const Form = () => {
               </option>
             ))}
           </select>
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Communities</label>
+          <Select
+            options={communityOptions}
+            onChange={handleMultiSelectChange}
+            isMulti
+            placeholder="Select Communities"
+          />
         </div>
 
         <div className="mb-3">

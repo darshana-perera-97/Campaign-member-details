@@ -361,9 +361,18 @@ const ViewMembers = () => {
                     <td>{key}</td>
                     <td>
                       {
-                        typeof value === "object" && value?.label
+                        Array.isArray(value)
+                          ? // Handle arrays, displaying the "label" property if available
+                            value.map((item, idx) =>
+                              typeof item === "object" && item?.label ? (
+                                <div key={idx}>{item.label}</div>
+                              ) : (
+                                <div key={idx}>{item.toString()}</div>
+                              )
+                            )
+                          : typeof value === "object" && value?.label
                           ? value.label // Show the "label" if it's an object with a "label" property
-                          : value.toString().replace(/\n/g, "<br />") // Handle line breaks
+                          : value?.toString()?.replace(/\n/g, "<br />") // Handle line breaks
                       }
                     </td>
                   </tr>

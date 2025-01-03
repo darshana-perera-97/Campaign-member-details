@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { gsOptions, agaOptions } from "../Components/data";
 
 const CommunityList = () => {
   const [communities, setCommunities] = useState([]);
@@ -42,6 +43,21 @@ const CommunityList = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+
+    // Check for duplicate community name
+    const isDuplicate = communities.some(
+      (community, index) =>
+        community.name.toLowerCase() === formValues.name.toLowerCase() &&
+        index !== editIndex
+    );
+
+    if (isDuplicate) {
+      alert(
+        "A community with this name already exists. Please choose another name."
+      );
+      return;
+    }
+
     const url =
       editIndex !== null
         ? `http://localhost:5000/communities/${editIndex}`
@@ -157,9 +173,8 @@ const CommunityList = () => {
                   </div>
                   <div className="mb-3">
                     <label className="form-label">GS Division</label>
-                    <input
-                      type="text"
-                      className="form-control"
+                    <select
+                      className="form-select"
                       value={formValues.gsDivision}
                       onChange={(e) =>
                         setFormValues({
@@ -168,13 +183,21 @@ const CommunityList = () => {
                         })
                       }
                       required
-                    />
+                    >
+                      <option value="" disabled>
+                        Select GS Division
+                      </option>
+                      {gsOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <div className="mb-3">
                     <label className="form-label">AGA Division</label>
-                    <input
-                      type="text"
-                      className="form-control"
+                    <select
+                      className="form-select"
                       value={formValues.agaDivision}
                       onChange={(e) =>
                         setFormValues({
@@ -183,7 +206,16 @@ const CommunityList = () => {
                         })
                       }
                       required
-                    />
+                    >
+                      <option value="" disabled>
+                        Select AGA Division
+                      </option>
+                      {agaOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <button type="submit" className="btn btn-primary">
                     Save

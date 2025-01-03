@@ -11,16 +11,15 @@ const PORT = 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// Data file
+// File paths
 const dataFilePath = path.join(__dirname, "submittedData.json");
 const communitiesFilePath = path.join(__dirname, "communities.json");
 
-// Ensure the data file exists
+// Ensure data files exist
 if (!fs.existsSync(dataFilePath)) {
   fs.writeFileSync(dataFilePath, JSON.stringify([]));
 }
 
-// Ensure the communities file exists
 if (!fs.existsSync(communitiesFilePath)) {
   fs.writeFileSync(communitiesFilePath, JSON.stringify([]));
 }
@@ -29,28 +28,41 @@ if (!fs.existsSync(communitiesFilePath)) {
 app.post("/submit", (req, res) => {
   const formData = req.body;
 
-  if (!formData) {
-    return res.status(400).json({ message: "Invalid form data" });
+  // Validate NIC field
+  if (!formData || !formData.nic) {
+    return res.status(400).json({ message: "NIC is required." });
   }
 
   try {
-    // Read existing data
     const existingData = JSON.parse(fs.readFileSync(dataFilePath, "utf8"));
 
-    // Add the new data
-    existingData.push(formData);
+    // Normalize NIC for comparison
+    const duplicateNIC = existingData.some(
+      (data) =>
+        data.nic.trim().toLowerCase() === formData.nic.trim().toLowerCase()
+    );
 
-    // Save back to the file
+    console.log("Checking NIC:", formData.nic, "| Duplicate:", duplicateNIC);
+
+    if (duplicateNIC) {
+      return res
+        .status(409)
+        .json({ message: "NIC already exists. Submission rejected." });
+    }
+
+    // Save new data
+    existingData.push(formData);
     fs.writeFileSync(dataFilePath, JSON.stringify(existingData, null, 2));
 
-    res.status(200).json({ message: "Form data saved successfully" });
+    console.log("New entry added successfully:", formData);
+    res.status(200).json({ message: "Form data saved successfully." });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Failed to save form data" });
+    console.error("Error saving data:", err);
+    res.status(500).json({ message: "Failed to save form data." });
   }
 });
 
-// Get submitted data (for testing or displaying)
+// Get submitted data
 app.get("/data", (req, res) => {
   try {
     const data = JSON.parse(fs.readFileSync(dataFilePath, "utf8"));
