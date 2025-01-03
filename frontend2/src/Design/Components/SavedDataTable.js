@@ -289,7 +289,10 @@ const SavedDataTable = () => {
         >
           Download as PDF
         </button>
-        <button className="btn btn-secondary" onClick={handleDownloadAddressPDF}>
+        <button
+          className="btn btn-secondary"
+          onClick={handleDownloadAddressPDF}
+        >
           Download Address
         </button>
       </div>
@@ -332,9 +335,7 @@ const SavedDataTable = () => {
           <Modal.Title>Entry Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {modalData && (
-            <pre>{JSON.stringify(modalData, null, 2)}</pre>
-          )}
+          {modalData && <pre>{JSON.stringify(modalData, null, 2)}</pre>}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setModalData(null)}>

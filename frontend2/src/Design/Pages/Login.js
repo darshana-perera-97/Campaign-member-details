@@ -12,7 +12,7 @@ export default function Login({ setIsAuthenticated }) {
     // Mock authentication logic (replace with real logic)
     if (username === "a" && password === "a") {
       setIsAuthenticated(true); // Update authentication state
-      navigate("/"); // Redirect to the home page
+      navigate("/dashboard"); // Redirect to the home page
     } else {
       alert("Invalid credentials. Please try again.");
     }

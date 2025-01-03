@@ -4,7 +4,7 @@ import { Modal, Button } from "react-bootstrap";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
-const SavedDataTable = () => {
+const ViewMembers = () => {
   const [data, setData] = useState([]); // Data from the server
   const [filteredData, setFilteredData] = useState([]); // Filtered data for display
   const [filters, setFilters] = useState({
@@ -161,84 +161,103 @@ const SavedDataTable = () => {
       <h2>Saved Form Data</h2>
 
       {/* Filter Inputs */}
-      <div className="mb-3">
-        <div className="row">
-          <div className="col-md-3">
-            <input
-              type="text"
-              name="name"
-              value={filters.name}
-              onChange={handleFilterChange}
-              placeholder="Filter by Name"
-              className="form-control"
-            />
-          </div>
-          <div className="col-md-3">
-            <input
-              type="text"
-              name="nic"
-              value={filters.nic}
-              onChange={handleFilterChange}
-              placeholder="Filter by NIC"
-              className="form-control"
-            />
-          </div>
-          <div className="col-md-3">
-            <input
-              type="date"
-              name="dob"
-              value={filters.dob}
-              onChange={handleFilterChange}
-              className="form-control"
-            />
-          </div>
-          <div className="col-md-3">
-            <input
-              type="text"
-              name="poolingBooth"
-              value={filters.poolingBooth}
-              onChange={handleFilterChange}
-              placeholder="Filter by Pooling Booth"
-              className="form-control"
-            />
-          </div>
-          <div className="col-md-3 mt-2">
-            <input
-              type="text"
-              name="gsDivision"
-              value={filters.gsDivision}
-              onChange={handleFilterChange}
-              placeholder="Filter by GS Division"
-              className="form-control"
-            />
-          </div>
-          <div className="col-md-3 mt-2">
-            <input
-              type="text"
-              name="agaDivision"
-              value={filters.agaDivision}
-              onChange={handleFilterChange}
-              placeholder="Filter by AGA Division"
-              className="form-control"
-            />
-          </div>
-          <div className="col-md-3 mt-2">
-            <select
-              name="priority"
-              value={filters.priority}
-              onChange={handleFilterChange}
-              className="form-control"
-            >
-              <option value="">Filter by Priority</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-          </div>
-        </div>
-      </div>
+<div className="mb-3">
+  <div className="row">
+    <div className="col-md-3">
+      <input
+        type="text"
+        name="name"
+        value={filters.name}
+        onChange={handleFilterChange}
+        placeholder="Filter by Name"
+        className="form-control"
+      />
+    </div>
+    <div className="col-md-3">
+      <input
+        type="text"
+        name="nic"
+        value={filters.nic}
+        onChange={handleFilterChange}
+        placeholder="Filter by NIC"
+        className="form-control"
+      />
+    </div>
+    <div className="col-md-3">
+      <input
+        type="date"
+        name="dob"
+        value={filters.dob}
+        onChange={handleFilterChange}
+        className="form-control"
+      />
+    </div>
+    <div className="col-md-3">
+      <input
+        type="text"
+        name="poolingBooth"
+        value={filters.poolingBooth}
+        onChange={handleFilterChange}
+        placeholder="Filter by Pooling Booth"
+        className="form-control"
+      />
+    </div>
+    <div className="col-md-3 mt-2">
+      <input
+        type="text"
+        name="gsDivision"
+        value={filters.gsDivision}
+        onChange={handleFilterChange}
+        placeholder="Filter by GS Division"
+        className="form-control"
+      />
+    </div>
+    <div className="col-md-3 mt-2">
+      <input
+        type="text"
+        name="agaDivision"
+        value={filters.agaDivision}
+        onChange={handleFilterChange}
+        placeholder="Filter by AGA Division"
+        className="form-control"
+      />
+    </div>
+    <div className="col-md-3 mt-2">
+      <select
+        name="priority"
+        value={filters.priority}
+        onChange={handleFilterChange}
+        className="form-control"
+      >
+        <option value="">Filter by Priority</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+    </div>
+    <div className="col-md-3 mt-2">
+      <button
+        className="btn btn-danger"
+        onClick={() =>
+          setFilters({
+            name: "",
+            nic: "",
+            dob: "",
+            poolingBooth: "",
+            gsDivision: "",
+            agaDivision: "",
+            priority: "",
+          })
+        }
+      >
+        Reset Filters
+      </button>
+    </div>
+  </div>
+</div>
+
 
       {/* Table */}
       <table className="table table-bordered table-striped">
@@ -289,7 +308,10 @@ const SavedDataTable = () => {
         >
           Download as PDF
         </button>
-        <button className="btn btn-secondary" onClick={handleDownloadAddressPDF}>
+        <button
+          className="btn btn-secondary"
+          onClick={handleDownloadAddressPDF}
+        >
           Download Address
         </button>
       </div>
@@ -332,9 +354,7 @@ const SavedDataTable = () => {
           <Modal.Title>Entry Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {modalData && (
-            <pre>{JSON.stringify(modalData, null, 2)}</pre>
-          )}
+          {modalData && <pre>{JSON.stringify(modalData, null, 2)}</pre>}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setModalData(null)}>
@@ -346,4 +366,4 @@ const SavedDataTable = () => {
   );
 };
 
-export default SavedDataTable;
+export default ViewMembers;

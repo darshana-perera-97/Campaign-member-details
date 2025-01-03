@@ -1,11 +1,19 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const AddMemberForm = () => {
   const [selectedPriority, setSelectedPriority] = useState(5); // Default priority is 5
+  const navigate = useNavigate();
 
   const handlePriorityClick = (level) => {
     setSelectedPriority(level);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent page reload
+    window.alert("Data successfully submitted!");
+    navigate("/dashboard");
   };
 
   return (
@@ -38,7 +46,7 @@ const AddMemberForm = () => {
             Add Member Details
           </h4>
 
-          <form>
+          <form onSubmit={handleSubmit}>
             {/* Division Details */}
             <div className="mb-4">
               <h5 style={{ fontWeight: "bold", color: "#333" }}>
