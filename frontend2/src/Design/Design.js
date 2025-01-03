@@ -6,6 +6,7 @@ import ViewAll from "./Pages/ViewAll";
 import Users from "./Pages/Users";
 import Login from "./Pages/Login";
 import Dashboard from "./Pages/Dashboard";
+import Community from "./Pages/Community";
 
 export default function Design() {
   // State to manage authentication
@@ -24,6 +25,7 @@ export default function Design() {
       {isAuthenticated ? (
         <>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/community" element={<Community />} />
           <Route path="/" element={<Home />} />
           <Route path="/add" element={<AddMan />} />
           <Route path="/viewAll" element={<ViewAll />} />
