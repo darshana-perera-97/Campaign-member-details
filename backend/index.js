@@ -13,10 +13,16 @@ app.use(bodyParser.json());
 
 // Data file
 const dataFilePath = path.join(__dirname, "submittedData.json");
+const communitiesFilePath = path.join(__dirname, "communities.json");
 
 // Ensure the data file exists
 if (!fs.existsSync(dataFilePath)) {
   fs.writeFileSync(dataFilePath, JSON.stringify([]));
+}
+
+// Ensure the communities file exists
+if (!fs.existsSync(communitiesFilePath)) {
+  fs.writeFileSync(communitiesFilePath, JSON.stringify([]));
 }
 
 // Save form data
@@ -52,6 +58,84 @@ app.get("/data", (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Failed to read data" });
+  }
+});
+
+// Get all communities
+app.get("/communities", (req, res) => {
+  try {
+    const communities = JSON.parse(
+      fs.readFileSync(communitiesFilePath, "utf8")
+    );
+    res.status(200).json(communities);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to read communities data" });
+  }
+});
+
+// Add a new community
+app.post("/communities", (req, res) => {
+  const community = req.body;
+
+  if (
+    !community ||
+    !community.name ||
+    !community.gsDivision ||
+    !community.agaDivision
+  ) {
+    return res.status(400).json({ message: "Invalid community data" });
+  }
+
+  try {
+    const communities = JSON.parse(
+      fs.readFileSync(communitiesFilePath, "utf8")
+    );
+    communities.push(community);
+    fs.writeFileSync(communitiesFilePath, JSON.stringify(communities, null, 2));
+    res.status(201).json({ message: "Community added successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to add community" });
+  }
+});
+
+// Update a community
+app.put("/communities/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const updatedCommunity = req.body;
+
+  try {
+    const communities = JSON.parse(
+      fs.readFileSync(communitiesFilePath, "utf8")
+    );
+    const index = communities.findIndex((_, idx) => idx === id);
+
+    if (index === -1) {
+      return res.status(404).json({ message: "Community not found" });
+    }
+
+    communities[index] = updatedCommunity;
+    fs.writeFileSync(communitiesFilePath, JSON.stringify(communities, null, 2));
+    res.status(200).json({ message: "Community updated successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to update community" });
+  }
+});
+
+// Delete a community
+app.delete("/communities/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+
+  try {
+    let communities = JSON.parse(fs.readFileSync(communitiesFilePath, "utf8"));
+    communities = communities.filter((_, idx) => idx !== id);
+    fs.writeFileSync(communitiesFilePath, JSON.stringify(communities, null, 2));
+    res.status(200).json({ message: "Community deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to delete community" });
   }
 });
 
