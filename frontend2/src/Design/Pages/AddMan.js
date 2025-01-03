@@ -1,7 +1,10 @@
-import React from 'react'
+import React from "react";
+import Form from "../Components/Form";
 
 export default function AddMan() {
   return (
-    <div>AddMan</div>
-  )
+    <div>
+      <Form />
+    </div>
+  );
 }

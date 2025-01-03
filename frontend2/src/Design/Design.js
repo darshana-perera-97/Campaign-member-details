@@ -5,6 +5,7 @@ import AddMan from "./Pages/AddMan";
 import ViewAll from "./Pages/ViewAll";
 import Users from "./Pages/Users";
 import Login from "./Pages/Login";
+import Dashboard from "./Pages/Dashboard";
 
 export default function Design() {
   // State to manage authentication
@@ -13,6 +14,7 @@ export default function Design() {
   return (
     <Routes>
       {/* Login Route */}
+
       <Route
         path="/login"
         element={<Login setIsAuthenticated={setIsAuthenticated} />}
@@ -21,6 +23,7 @@ export default function Design() {
       {/* Protected Routes */}
       {isAuthenticated ? (
         <>
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/" element={<Home />} />
           <Route path="/add" element={<AddMan />} />
           <Route path="/viewAll" element={<ViewAll />} />

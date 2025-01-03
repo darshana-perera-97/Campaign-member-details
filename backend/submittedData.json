@@ -24,13 +24,13 @@
     "connectivity": "sd"
   },
   {
-    "name": "darshana Perera",
+    "name": "record1",
     "nic": "972060909V",
     "mobile1": "0771461925",
     "mobile2": "",
     "homeNumber": "",
     "whatsapp": "0771461925",
-    "address": "28/A\nIhala Kudawewa",
+    "address": "sad",
     "dob": "2024-12-31",
     "poolingBooth": {
       "value": "booth2",
@@ -44,7 +44,103 @@
       "value": "aga2",
       "label": "AGA Division 2"
     },
+    "priority": "2",
+    "connectivity": "asd"
+  },
+  {
+    "name": "darshana2 Perera",
+    "nic": "972060909V",
+    "mobile1": "0771461925",
+    "mobile2": "",
+    "homeNumber": "",
+    "whatsapp": "0771461925",
+    "address": "28/A\nIhala Kudawewa\nKUdawewa\n61226",
+    "dob": "2025-01-30",
+    "poolingBooth": {
+      "value": "booth1",
+      "label": "Booth 1"
+    },
+    "gsDivision": {
+      "value": "gs1",
+      "label": "GS Division 1"
+    },
+    "agaDivision": {
+      "value": "aga2",
+      "label": "AGA Division 2"
+    },
     "priority": 5,
-    "connectivity": "sd"
+    "connectivity": "zxc"
+  },
+  {
+    "name": "Hasantha DS",
+    "nic": "972060909V",
+    "mobile1": "0771461925",
+    "mobile2": "",
+    "homeNumber": "",
+    "whatsapp": "0771461925",
+    "address": "28/A\nIhala Kudawewa\nKUdawewa\n61226",
+    "dob": "2025-01-30",
+    "poolingBooth": {
+      "value": "booth1",
+      "label": "Booth 1"
+    },
+    "gsDivision": {
+      "value": "gs1",
+      "label": "GS Division 1"
+    },
+    "agaDivision": {
+      "value": "aga2",
+      "label": "AGA Division 2"
+    },
+    "priority": 5,
+    "connectivity": "zxc"
+  },
+  {
+    "name": "hasa",
+    "nic": "972060909V",
+    "mobile1": "0771461925",
+    "mobile2": "",
+    "homeNumber": "",
+    "whatsapp": "0771461925",
+    "address": "28/A\nIhala Kudawewa",
+    "dob": "2025-02-08",
+    "poolingBooth": {
+      "value": "booth1",
+      "label": "Booth 1"
+    },
+    "gsDivision": {
+      "value": "gs2",
+      "label": "GS Division 2"
+    },
+    "agaDivision": {
+      "value": "aga2",
+      "label": "AGA Division 2"
+    },
+    "priority": 5,
+    "connectivity": "j"
+  },
+  {
+    "name": "Naweed",
+    "nic": "9720609091V",
+    "mobile1": "0771467582",
+    "mobile2": "",
+    "homeNumber": "",
+    "whatsapp": "0771467582",
+    "address": "Ananda Mawatha,\ncolombo 10",
+    "dob": "2025-01-01",
+    "poolingBooth": {
+      "value": "booth2",
+      "label": "Booth 2"
+    },
+    "gsDivision": {
+      "value": "gs2",
+      "label": "GS Division 2"
+    },
+    "agaDivision": {
+      "value": "aga2",
+      "label": "AGA Division 2"
+    },
+    "priority": "2",
+    "connectivity": "xdgf"
   }
 ]
