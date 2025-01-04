@@ -1,20 +1,32 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Login({ setIsAuthenticated }) {
+export default function Login({ setIsAuthenticated, setRoll }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await response.json();
 
-    // Mock authentication logic (replace with real logic)
-    if (username === "a" && password === "a") {
-      setIsAuthenticated(true); // Update authentication state
-      navigate("/dashboard"); // Redirect to the home page
-    } else {
-      alert("Invalid credentials. Please try again.");
+      if (response.ok) {
+        console.log(`Frontend: User Role - ${data.role}`); // Log role in frontend console
+        setRoll(data.role);
+        setIsAuthenticated(true);
+        localStorage.setItem("role", data.role); // Optionally store the role
+        navigate("/dashboard");
+      } else {
+        alert(data.message);
+      }
+    } catch (err) {
+      console.error("Error logging in:", err);
     }
   };
 

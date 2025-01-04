@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 // File paths
 const dataFilePath = path.join(__dirname, "submittedData.json");
 const communitiesFilePath = path.join(__dirname, "communities.json");
+const usersFilePath = path.join(__dirname, "users.json");
 
 // Ensure data files exist
 if (!fs.existsSync(dataFilePath)) {
@@ -23,6 +24,68 @@ if (!fs.existsSync(dataFilePath)) {
 if (!fs.existsSync(communitiesFilePath)) {
   fs.writeFileSync(communitiesFilePath, JSON.stringify([]));
 }
+
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const users = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
+    const user = users.find(
+      (u) => u.username === username && u.password === password
+    );
+
+    if (user) {
+      console.log(`User Logged In: ${username}, Role: ${user.role}`); // Log role in backend
+      res.status(200).json({ role: user.role, message: "Login successful" });
+    } else {
+      console.log(`Failed Login Attempt: ${username}`);
+      res.status(401).json({ message: "Invalid credentials" });
+    }
+  } catch (err) {
+    console.error("Error during login:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+app.put("/update-password", (req, res) => {
+  const { username, oldPassword, newPassword } = req.body;
+
+  if (!username || !oldPassword || !newPassword) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  try {
+    const users = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
+    const userIndex = users.findIndex(
+      (user) => user.username === username && user.password === oldPassword
+    );
+
+    if (userIndex === -1) {
+      return res.status(401).json({ message: "Invalid username or password" });
+    }
+
+    users[userIndex].password = newPassword;
+    fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
+
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (err) {
+    console.error("Error updating password:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// Get all users
+app.get("/users", (req, res) => {
+  try {
+    const users = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
+    // Do not send passwords in the response for security reasons
+    const usersWithoutPasswords = users.map(({ password, ...rest }) => rest);
+    res.status(200).json(usersWithoutPasswords);
+  } catch (err) {
+    console.error("Error fetching users:", err);
+    res.status(500).json({ message: "Failed to fetch users" });
+  }
+});
 
 // Save form data
 app.post("/submit", (req, res) => {
