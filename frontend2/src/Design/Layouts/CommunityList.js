@@ -89,10 +89,15 @@ const CommunityList = () => {
   };
 
   return (
-    <div className="container mt-4">
-      <h1 className="mb-4">Community List</h1>
-      <table className="table table-bordered table-hover">
-        <thead className="thead-dark">
+    <div
+      className="container mt-4 "
+      style={{
+        backgroundColor: "#ffffff",
+      }}
+    >
+      <h2 className="text-center mb-4 mt-3 card-heading">Community List</h2>
+      <table className="table table-bordered table-hover table-striped">
+        <thead>
           <tr>
             <th>Community Name</th>
             <th>GS Division</th>
@@ -125,7 +130,7 @@ const CommunityList = () => {
         </tbody>
       </table>
       <button
-        className="btn btn-success mt-3"
+        className="btn btn-primary px-4 mt-3 custom-btn"
         onClick={() => setIsModalOpen(true)}
       >
         Add New Community

@@ -94,14 +94,16 @@ const Form = () => {
 
   return (
     <div
-      className="container mt-5 p-4 rounded"
+      className="container mt-5 p-5 rounded"
       style={{
-        backgroundColor: "#f9f9f9",
+        backgroundColor: "#ffffff",
         boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
         maxWidth: "700px",
       }}
     >
-      <h3 className="text-center text-primary mb-4">User Information Form2</h3>
+      <h2 className="text-center mb-4 mt-3 card-heading">
+        User Information Form
+      </h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label">Name</label>
@@ -258,6 +260,7 @@ const Form = () => {
             placeholder="Select Communities"
           />
         </div>
+        
 
         <div className="mb-3">
           <label className="form-label">Connectivity</label>
@@ -268,13 +271,12 @@ const Form = () => {
             value={formData.connectivity}
             onChange={handleChange}
             placeholder="Enter your connectivity details"
-            required
           />
         </div>
 
         <button
           type="submit"
-          className="btn btn-primary w-100 mt-3"
+          className="btn btn-primary w-100 mt-3 custom-btn"
           style={{ padding: "0.75rem" }}
         >
           Submit

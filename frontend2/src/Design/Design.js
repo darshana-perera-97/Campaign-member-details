@@ -7,6 +7,7 @@ import Users from "./Pages/Users";
 import Login from "./Pages/Login";
 import Dashboard from "./Pages/Dashboard";
 import Community from "./Pages/Community";
+import Settings from "./Pages/Settings";
 
 export default function Design() {
   // State to manage authentication
@@ -29,6 +30,7 @@ export default function Design() {
           <Route path="/" element={<Home />} />
           <Route path="/add" element={<AddMan />} />
           <Route path="/viewAll" element={<ViewAll />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="/users" element={<Users />} />
           <Route path="*" element={<Navigate to="/" replace />} />{" "}
           {/* Redirect unknown paths to home */}

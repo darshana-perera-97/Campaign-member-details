@@ -4,7 +4,7 @@ import Design from "./Design/Design";
 
 function App() {
   return (
-    <div>
+    <div style={{ backgroundColor: "#efefef" }}>
       <Design />
     </div>
   );

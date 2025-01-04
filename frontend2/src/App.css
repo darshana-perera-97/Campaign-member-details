@@ -1,7 +1,7 @@
 /* DashboardCardView.css */
 
 .container {
-    background-color: #f7f9fa;
+    background-color: #efefef;
     /* Matches the light gray background */
     padding: 20px;
 }
@@ -18,24 +18,64 @@
     transition: transform 0.3s ease;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-}
 
 .card-title {
-    font-size: 16px;
+    font-size: 24px;
     font-weight: 500;
-    color: #2e4954;
+    margin-top: 10px;
+    color: #0a66c2;
     /* Matches the specific text color */
 }
 
 .card img {
     width: 50px;
     margin-bottom: 10px;
+    margin-top: 30px;
 }
 
 @media (max-width: 768px) {
     .card {
         margin-bottom: 20px;
     }
+}
+
+.custom-btn {
+    background-color: #0a66c2;
+    font-weight: 600;
+    padding: 10px 0px;
+}
+
+.card-heading {
+    color: #0a66c2;
+}
+
+input {
+    padding: 10px 15px !important;
+}
+
+.top-bar {
+    width: 100%;
+    /* Adjust as needed */
+    background-color: #0a66c2;
+    /* Replace with your desired color */
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    /* Add some padding on the sides */
+    box-sizing: border-box;
+}
+
+.top-bar-icon {
+    height: 30px;
+    /* Adjust as needed */
+    margin-right: 10px;
+    /* Add spacing between the icon and text */
+}
+
+.top-bar-text {
+    color: #fff;
+    /* White text */
+    font-size: 16px;
+    /* Adjust as needed */
+    font-weight: bold;
 }

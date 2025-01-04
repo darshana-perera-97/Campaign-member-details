@@ -20,9 +20,9 @@ export default function Login({ setIsAuthenticated }) {
 
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100">
-      <div className="card p-4 shadow-lg" style={{ width: "400px" }}>
-        <h2 className="text-center mb-4">Login</h2>
-        <form onSubmit={handleLogin}>
+      <div className="card p-5 shadow-md" style={{ width: "600px" }}>
+        <h2 className="text-center mb-4 card-heading">System Login</h2>
+        <form onSubmit={handleLogin} className="px-4">
           <div className="mb-3">
             <label htmlFor="username" className="form-label">
               Username:
@@ -51,7 +51,7 @@ export default function Login({ setIsAuthenticated }) {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary w-100">
+          <button type="submit" className="btn btn-primary w-100 custom-btn">
             Login
           </button>
         </form>

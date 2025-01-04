@@ -7,6 +7,9 @@ import "jspdf-autotable";
 const ViewMembers = () => {
   const [data, setData] = useState([]); // Data from the server
   const [filteredData, setFilteredData] = useState([]); // Filtered data for display
+  const [currentPage, setCurrentPage] = useState(1); // Current page for pagination
+  const rowsPerPage = 8; // Maximum rows per page
+
   const [filters, setFilters] = useState({
     name: "",
     nic: "",
@@ -77,6 +80,19 @@ const ViewMembers = () => {
     });
     setFilteredData(filtered);
   }, [filters, data]);
+
+  // Paginate data
+  const paginatedData = filteredData.slice(
+    (currentPage - 1) * rowsPerPage,
+    currentPage * rowsPerPage
+  );
+
+  const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+
+  // Handle page change
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   // Handle column selection in modal
   const handleColumnChange = (e) => {
@@ -157,11 +173,16 @@ const ViewMembers = () => {
   };
 
   return (
-    <div className="container mt-4">
-      <h2>Saved Form Data</h2>
+    <div
+      className="container mt-4"
+      style={{
+        backgroundColor: "#ffffff",
+      }}
+    >
+      <h2 className="text-center mb-5 mt-3 card-heading">Saved Form Data</h2>
 
       {/* Filter Inputs */}
-      <div className="mb-3">
+      <div className="mb-5">
         <div className="row">
           <div className="col-md-3">
             <input
@@ -239,7 +260,7 @@ const ViewMembers = () => {
           </div>
           <div className="col-md-3 mt-2">
             <button
-              className="btn btn-danger"
+              className="btn btn-primary btn-sm mt-1 "
               onClick={() =>
                 setFilters({
                   name: "",
@@ -259,7 +280,7 @@ const ViewMembers = () => {
       </div>
 
       {/* Table */}
-      <table className="table table-bordered table-striped">
+      <table className="table table-bordered table-striped table-hover">
         <thead>
           <tr>
             {selectedColumns.name && <th>Name</th>}
@@ -270,8 +291,8 @@ const ViewMembers = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredData.length > 0 ? (
-            filteredData.map((entry, index) => (
+          {paginatedData.length > 0 ? (
+            paginatedData.map((entry, index) => (
               <tr key={index}>
                 {selectedColumns.name && <td>{entry.name}</td>}
                 {selectedColumns.nic && <td>{entry.nic}</td>}
@@ -282,7 +303,7 @@ const ViewMembers = () => {
                 <td>
                   <button
                     className="btn btn-primary btn-sm"
-                    onClick={() => handleViewMore(entry)}
+                    onClick={() => setModalData(entry)}
                   >
                     View More
                   </button>
@@ -298,6 +319,29 @@ const ViewMembers = () => {
           )}
         </tbody>
       </table>
+
+      {/* Pagination */}
+      <div className="d-flex justify-content-center mt-3">
+        <nav>
+          <ul className="pagination">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <li
+                key={index}
+                className={`page-item ${
+                  currentPage === index + 1 ? "active" : ""
+                }`}
+              >
+                <button
+                  className="page-link"
+                  onClick={() => handlePageChange(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
 
       {/* Download Buttons */}
       <div className="mt-3">
