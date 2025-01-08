@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "name": "test2",
+    "gsDivision": "gs1",
+    "agaDivision": "aga1"
+  },
+  {
+    "name": "test223",
+    "gsDivision": "gs2",
+    "agaDivision": "aga2"
+  }
+]

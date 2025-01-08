@@ -109,11 +109,11 @@ const Form = () => {
           <label className="form-label">Name</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control custom-font"
             name="name"
             value={formData.name}
             onChange={handleChange}
-            placeholder="Enter your full name"
+            placeholder="ku"
             required
           />
         </div>
@@ -184,7 +184,7 @@ const Form = () => {
         <div className="mb-3">
           <label className="form-label">Address</label>
           <textarea
-            className="form-control"
+            className="form-control custom-font"
             name="address"
             value={formData.address}
             onChange={handleChange}
@@ -260,7 +260,6 @@ const Form = () => {
             placeholder="Select Communities"
           />
         </div>
-        
 
         <div className="mb-3">
           <label className="form-label">Connectivity</label>
