@@ -1,20 +1,20 @@
 [
   {
-    "name": "darshana Perera",
-    "nic": "972060909V",
+    "name": "iuka",
+    "nic": "972060999V",
     "mobile1": "0771461925",
     "mobile2": "",
     "homeNumber": "",
     "whatsapp": "0771461925",
-    "address": "28/A\nIhala Kudawewa",
-    "dob": "2025-01-23",
+    "address": "28$ta\"\nby, uyjej\"\nf;dvqjdj",
+    "dob": "2025-01-01",
     "poolingBooth": {
       "value": "booth2",
       "label": "Booth 2"
     },
     "gsDivision": {
-      "value": "gs2",
-      "label": "GS Division 2"
+      "value": "gs3",
+      "label": "GS Division 3"
     },
     "agaDivision": {
       "value": "aga2",
@@ -22,11 +22,11 @@
     },
     "communities": [
       {
-        "value": "test2",
-        "label": "test2"
+        "value": "test223",
+        "label": "test223"
       }
     ],
-    "priority": "3",
-    "connectivity": "zxc"
+    "priority": "2",
+    "connectivity": "test"
   }
 ]
