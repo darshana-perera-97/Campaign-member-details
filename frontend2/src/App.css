@@ -1,5 +1,15 @@
 /* DashboardCardView.css */
 
+@font-face {
+    font-family: 'CustomFont';
+    src: url('./Design/fonts/FM-Malithi.ttf') format('truetype');
+}
+
+.custom-font {
+    font-family: 'CustomFont', sans-serif;
+}
+
+
 .container {
     background-color: #efefef;
     /* Matches the light gray background */
