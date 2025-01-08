@@ -188,7 +188,7 @@ const Form = () => {
             name="address"
             value={formData.address}
             onChange={handleChange}
-            placeholder="Enter your full address"
+            placeholder=",smskh"
             required
           ></textarea>
         </div>

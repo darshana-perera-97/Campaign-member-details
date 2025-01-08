@@ -190,8 +190,8 @@ const ViewMembers = () => {
               name="name"
               value={filters.name}
               onChange={handleFilterChange}
-              placeholder="Filter by Name"
-              className="form-control"
+              placeholder="ku"
+              className="form-control custom-font"
             />
           </div>
           <div className="col-md-3">
@@ -294,7 +294,9 @@ const ViewMembers = () => {
           {paginatedData.length > 0 ? (
             paginatedData.map((entry, index) => (
               <tr key={index}>
-                {selectedColumns.name && <td>{entry.name}</td>}
+                {selectedColumns.name && (
+                  <td className="custom-font">{entry.name}</td>
+                )}
                 {selectedColumns.nic && <td>{entry.nic}</td>}
                 {selectedColumns.gsDivision && (
                   <td>{entry.gsDivision?.label || entry.gsDivision || "-"}</td>
@@ -403,7 +405,11 @@ const ViewMembers = () => {
                 {Object.entries(modalData).map(([key, value], index) => (
                   <tr key={index}>
                     <td>{key}</td>
-                    <td>
+                    <td
+                      className={
+                        key === "address" || key === "name" ? "custom-font" : ""
+                      }
+                    >
                       {
                         Array.isArray(value)
                           ? // Handle arrays, displaying the "label" property if available
@@ -416,7 +422,7 @@ const ViewMembers = () => {
                             )
                           : typeof value === "object" && value?.label
                           ? value.label // Show the "label" if it's an object with a "label" property
-                          : value?.toString()?.replace(/\n/g, "<br />") // Handle line breaks
+                          : value // Handle line breaks
                       }
                     </td>
                   </tr>
@@ -427,6 +433,7 @@ const ViewMembers = () => {
             <p>No data available</p>
           )}
         </Modal.Body>
+
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setModalData(null)}>
             Close
