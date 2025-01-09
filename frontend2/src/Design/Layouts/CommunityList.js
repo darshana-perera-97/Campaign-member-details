@@ -108,7 +108,7 @@ const CommunityList = () => {
         <tbody>
           {communities.map((community, index) => (
             <tr key={index}>
-              <td>{community.name}</td>
+              <td className="custom-font">{community.name}</td>
               <td>{community.gsDivision}</td>
               <td>{community.agaDivision}</td>
               <td>
@@ -168,7 +168,7 @@ const CommunityList = () => {
                     <label className="form-label">Community Name</label>
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control custom-font"
                       value={formValues.name}
                       onChange={(e) =>
                         setFormValues({ ...formValues, name: e.target.value })
@@ -179,7 +179,7 @@ const CommunityList = () => {
                   <div className="mb-3">
                     <label className="form-label">GS Division</label>
                     <select
-                      className="form-select"
+                      className="form-select "
                       value={formValues.gsDivision}
                       onChange={(e) =>
                         setFormValues({
