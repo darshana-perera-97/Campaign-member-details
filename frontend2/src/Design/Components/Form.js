@@ -257,7 +257,8 @@ const Form = () => {
             options={communityOptions}
             onChange={handleMultiSelectChange}
             isMulti
-            placeholder="Select Communities"
+            placeholder="f;darkak"
+            className="custom-font"
           />
         </div>
 
