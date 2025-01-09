@@ -5,7 +5,7 @@ export default function Settings() {
   return (
     <div>
       <TopBar />
-      Settings
+      <settingsPage/>
     </div>
   );
 }
