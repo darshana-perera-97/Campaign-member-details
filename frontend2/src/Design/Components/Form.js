@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Select from "react-select";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { poolingOptions, gsOptions, agaOptions } from "./data";
+import { poolingOptions, gsOptions, agaOptions, region } from "./data";
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -79,6 +79,7 @@ const Form = () => {
           whatsapp: "",
           address: "",
           dob: "",
+          region: null,
           poolingBooth: null,
           gsDivision: null,
           agaDivision: null,
@@ -206,7 +207,16 @@ const Form = () => {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Pooling Booth</label>
+          <label className="form-label">Region</label>
+          <Select
+            options={region}
+            onChange={(option) => handleSelectChange("region", option)}
+            isSearchable
+            placeholder="Select your region"
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Poling Booth</label>
           <Select
             options={poolingOptions}
             onChange={(option) => handleSelectChange("poolingBooth", option)}

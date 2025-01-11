@@ -11,7 +11,7 @@ const TopBar = () => {
           alt="Icon"
           className="top-bar-icon"
         />
-        {/* <span className="top-bar-text">Data Collector</span> */}
+        {/* add dropdown here */}
       </Link>
     </div>
   );
