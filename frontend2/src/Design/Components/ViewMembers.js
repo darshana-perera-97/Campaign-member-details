@@ -32,6 +32,7 @@ const ViewMembers = () => {
     gsDivision: true,
     poolingBooth: true,
     priority: true,
+    region: true,
   });
   const [modalData, setModalData] = useState(null); // Data for View More modal
 
@@ -153,8 +154,7 @@ const ViewMembers = () => {
 
     // Close modal if applicable
     setShowModal(false);
-};
-
+  };
 
   // Download Address PDF
   const handleDownloadAddressPDF = () => {
@@ -444,7 +444,11 @@ const ViewMembers = () => {
                     <td>{key}</td>
                     <td
                       className={
-                        key === "communities" || key === "address" || key === "name" ? "custom-font" : ""
+                        key === "communities" ||
+                        key === "address" ||
+                        key === "name"
+                          ? "custom-font"
+                          : ""
                       }
                     >
                       {

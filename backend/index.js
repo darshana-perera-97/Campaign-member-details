@@ -97,15 +97,14 @@ app.post("/submit", (req, res) => {
   }
 
   try {
+    // Read existing data from the database (file)
     const existingData = JSON.parse(fs.readFileSync(dataFilePath, "utf8"));
 
-    // Normalize NIC for comparison
+    // Check for duplicate NIC
     const duplicateNIC = existingData.some(
       (data) =>
         data.nic.trim().toLowerCase() === formData.nic.trim().toLowerCase()
     );
-
-    console.log("Checking NIC:", formData.nic, "| Duplicate:", duplicateNIC);
 
     if (duplicateNIC) {
       return res
@@ -113,12 +112,18 @@ app.post("/submit", (req, res) => {
         .json({ message: "NIC already exists. Submission rejected." });
     }
 
-    // Save new data
+    // Generate a Graduation ID
+    const nextId = (existingData.length + 1).toString().padStart(5, "0");
+    formData.graduationId = nextId; // Add the generated ID to the formData object
+
+    // Save the updated data into the database
     existingData.push(formData);
     fs.writeFileSync(dataFilePath, JSON.stringify(existingData, null, 2));
 
-    console.log("New entry added successfully:", formData);
-    res.status(200).json({ message: "Form data saved successfully." });
+    res.status(200).json({
+      message: "Form data saved successfully.",
+      graduationId: nextId,
+    });
   } catch (err) {
     console.error("Error saving data:", err);
     res.status(500).json({ message: "Failed to save form data." });
