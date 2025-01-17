@@ -71,6 +71,7 @@ const Form = () => {
       .then(() => {
         alert("Form submitted successfully!");
         setFormData({
+          id: "",
           name: "",
           nic: "",
           mobile1: "",

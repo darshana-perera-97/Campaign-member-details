@@ -113,16 +113,30 @@ app.post("/submit", (req, res) => {
     }
 
     // Generate a Graduation ID
-    const nextId = (existingData.length + 1).toString().padStart(5, "0");
-    formData.graduationId = nextId; // Add the generated ID to the formData object
+    const nextIdNum = (existingData.length + 1).toString().padStart(5, "0");
 
-    // Save the updated data into the database
+    // formData.graduationId = nextId;
+
+    console.log("Data saved " + nextIdNum);
+
+    function generateNextId(formData, nextIdNum) {
+      const regionPrefix =
+        formData.region?.value?.substring(0, 2).toUpperCase() || "XX";
+      const gsPrefix =
+        formData.gsDivision?.value?.substring(0, 2).toUpperCase() || "XX";
+      return `${regionPrefix}-${gsPrefix}-${nextIdNum}`;
+    }
+
+    formData.id = generateNextId(formData, nextIdNum);
+
+    console.log(formData.id);
     existingData.push(formData);
+
     fs.writeFileSync(dataFilePath, JSON.stringify(existingData, null, 2));
 
     res.status(200).json({
       message: "Form data saved successfully.",
-      graduationId: nextId,
+      graduationId: nextIdNum,
     });
   } catch (err) {
     console.error("Error saving data:", err);
