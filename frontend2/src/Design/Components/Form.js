@@ -146,6 +146,19 @@ const Form = () => {
         </div>
 
         <div className="mb-3">
+          <label className="form-label">WhatsApp Number</label>
+          <input
+            type="tel"
+            className="form-control"
+            name="whatsapp"
+            value={formData.whatsapp}
+            onChange={handleChange}
+            placeholder="WhatsApp contact number"
+            required
+          />
+        </div>
+
+        <div className="mb-3">
           <label className="form-label">Mobile Number 2 (Optional)</label>
           <input
             type="tel"
@@ -166,19 +179,6 @@ const Form = () => {
             value={formData.homeNumber}
             onChange={handleChange}
             placeholder="Home phone number"
-          />
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">WhatsApp Number</label>
-          <input
-            type="tel"
-            className="form-control"
-            name="whatsapp"
-            value={formData.whatsapp}
-            onChange={handleChange}
-            placeholder="WhatsApp contact number"
-            required
           />
         </div>
 
