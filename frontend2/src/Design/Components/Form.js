@@ -72,6 +72,7 @@ const Form = () => {
         alert("Form submitted successfully!");
         setFormData({
           id: "",
+          polPartyId: "",
           name: "",
           nic: "",
           mobile1: "",
@@ -204,6 +205,20 @@ const Form = () => {
             value={formData.dob}
             onChange={handleChange}
             required
+          />
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Membership Number</label>
+          <input
+            type="text"
+            className="form-control"
+            name="polPartyId"
+            value={formData.polPartyId}
+            onChange={handleChange}
+            placeholder="Membership Number"
+            pattern="\d{6}"
+            title="Membership number must be 6 digits"
           />
         </div>
 
