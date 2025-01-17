@@ -5,15 +5,15 @@ export const poolingOptions = [
 ];
 
 export const gsOptions = [
-  { value: "gs1", label: "GS Division 1" },
-  { value: "gs2", label: "GS Division 2" },
-  { value: "gs3", label: "GS Division 3" },
+  { value: "01 - GS Division 1", label: "01 - GS Division 1" },
+  { value: "02 - GS Division 2", label: "02 - GS Division 2" },
+  { value: "03 - GS Division 3", label: "03 - GS Division 3" },
 ];
 
 export const agaOptions = [
-  { value: "aga1", label: "AGA Division 1" },
-  { value: "aga2", label: "AGA Division 2" },
-  { value: "aga3", label: "AGA Division 3" },
+  { value: "001 - AGA Division 1", label: "001 - AGA Division 1" },
+  { value: "002 - AGA Division 2", label: "002 - AGA Division 2" },
+  { value: "003 - AGA Division 3", label: "003 - AGA Division 3" },
 ];
 export const region = [
   { value: "Chilaw", label: "Chilaw" },
