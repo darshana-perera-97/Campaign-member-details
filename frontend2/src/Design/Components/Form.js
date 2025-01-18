@@ -53,7 +53,7 @@ const Form = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:5000/submit", {
+    fetch(`${API_BASE_URL}/submit`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { gsOptions, agaOptions } from "../Components/data";
+import API_BASE_URL from "./../baseURL";
 
 const CommunityList = () => {
   const [communities, setCommunities] = useState([]);
@@ -14,14 +15,14 @@ const CommunityList = () => {
 
   // Fetch communities
   useEffect(() => {
-    fetch("http://localhost:5000/communities")
+    fetch(`${API_BASE_URL}/communities`)
       .then((response) => response.json())
       .then((data) => setCommunities(data))
       .catch((error) => console.error("Error fetching communities:", error));
   }, []);
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/communities/${id}`, {
+    fetch(`${API_BASE_URL}/communities/${id}`, {
       method: "DELETE",
     })
       .then((response) => {
@@ -60,8 +61,8 @@ const CommunityList = () => {
 
     const url =
       editIndex !== null
-        ? `http://localhost:5000/communities/${editIndex}`
-        : "http://localhost:5000/communities";
+        ? `${API_BASE_URL}/communities/${editIndex}`
+        : `${API_BASE_URL}/communities`;
     const method = editIndex !== null ? "PUT" : "POST";
 
     fetch(url, {
@@ -99,9 +100,9 @@ const CommunityList = () => {
       <table className="table table-bordered table-hover table-striped">
         <thead>
           <tr>
-            <th>Community Name</th>
-            <th>GS Division</th>
-            <th>AGA Division</th>
+            <th className="custom-font">iñ;sfha ku</th>
+            <th className="custom-font">.%dufiajd fldÜgdih</th>
+            <th className="custom-font">m%dfoaYSh f,alï fldÜgdih</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -109,8 +110,8 @@ const CommunityList = () => {
           {communities.map((community, index) => (
             <tr key={index}>
               <td className="custom-font">{community.name}</td>
-              <td>{community.gsDivision}</td>
-              <td>{community.agaDivision}</td>
+              <td className="custom-font">{community.gsDivision}</td>
+              <td className="custom-font">{community.agaDivision}</td>
               <td>
                 <button
                   className="btn btn-primary btn-sm me-2"
@@ -165,7 +166,7 @@ const CommunityList = () => {
               <div className="modal-body">
                 <form onSubmit={handleFormSubmit}>
                   <div className="mb-3">
-                    <label className="form-label">Community Name</label>
+                    <label className="form-label">iñ;sfha ku</label>
                     <input
                       type="text"
                       className="form-control custom-font"
@@ -177,9 +178,11 @@ const CommunityList = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label className="form-label">GS Division</label>
+                    <label className="form-label custom-font">
+                      .%dufiajd fldÜgdih
+                    </label>
                     <select
-                      className="form-select "
+                      className="form-select custom-font"
                       value={formValues.gsDivision}
                       onChange={(e) =>
                         setFormValues({
@@ -190,7 +193,7 @@ const CommunityList = () => {
                       required
                     >
                       <option value="" disabled>
-                        Select GS Division
+                        .%dufiajd fldÜgdih f;darkak
                       </option>
                       {gsOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -200,9 +203,11 @@ const CommunityList = () => {
                     </select>
                   </div>
                   <div className="mb-3">
-                    <label className="form-label">AGA Division</label>
+                    <label className="form-label custom-font">
+                      m%dfoaYSh f,alï fldÜgdih
+                    </label>
                     <select
-                      className="form-select"
+                      className="form-select custom-font"
                       value={formValues.agaDivision}
                       onChange={(e) =>
                         setFormValues({
@@ -213,7 +218,7 @@ const CommunityList = () => {
                       required
                     >
                       <option value="" disabled>
-                        Select AGA Division
+                        m%dfoaYSh f,alï fldÜgdih f;darkak
                       </option>
                       {agaOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -223,7 +228,7 @@ const CommunityList = () => {
                     </select>
                   </div>
                   <button type="submit" className="btn btn-primary">
-                    Save
+                    Add
                   </button>
                   <button
                     type="button"
