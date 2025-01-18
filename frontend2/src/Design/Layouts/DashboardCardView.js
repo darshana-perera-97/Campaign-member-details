@@ -9,6 +9,27 @@ import users from "../Assets/users.png";
 
 const DashboardCardView = (prop) => {
   // Define the card data and the roles that can access each card
+
+  // Get current Sri Lankan time
+  const currentTime = new Date().toLocaleTimeString("en-US", {
+    timeZone: "Asia/Colombo",
+  });
+  const currentHour = new Date().toLocaleString("en-US", {
+    timeZone: "Asia/Colombo",
+    hour: "numeric",
+    hour12: false,
+  });
+
+  // Determine the greeting based on the hour
+  const getGreeting = () => {
+    if (currentHour >= 5 && currentHour < 12) {
+      return "Good Morning";
+    } else if (currentHour >= 12 && currentHour < 18) {
+      return "Good Afternoon";
+    } else {
+      return "Good Evening";
+    }
+  };
   const cards = [
     {
       path: "/add",
@@ -32,17 +53,17 @@ const DashboardCardView = (prop) => {
       roles: ["Admin"],
     },
     {
-      path: "/community",
-      imgSrc: communities,
-      imgAlt: "Community",
-      title: "Community",
-      roles: ["Admin"],
-    },
-    {
       path: "/settings",
       imgSrc: settings,
       imgAlt: "Settings",
       title: "Settings",
+      roles: ["Admin"],
+    },
+    {
+      path: "/community",
+      imgSrc: communities,
+      imgAlt: "Community",
+      title: "Community",
       roles: ["Admin"],
     },
   ];
@@ -50,6 +71,7 @@ const DashboardCardView = (prop) => {
   return (
     <div className="container mt-5">
       <div className="text-center mb-4">
+        <h4 className="text-center card-heading">Hi, {getGreeting()}</h4>
         <h1 className="text-center mb-5 card-heading">
           Data Collector - {prop.roll}
         </h1>
