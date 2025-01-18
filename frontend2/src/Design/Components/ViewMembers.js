@@ -170,7 +170,7 @@ const ViewMembers = () => {
     doc.setFont("CustomFont"); // Set the custom font
     doc.setFontSize(14); // Set text size to 14px
     const itemsPerPage = 18; // 3 rows x 7 columns
-    const boxWidth = 65;
+    const boxWidth = 105;
     const boxHeight = 35;
     const marginX = 0;
     const marginY = 1;
@@ -221,7 +221,21 @@ const ViewMembers = () => {
       {/* Filter Inputs */}
       <div className="mb-5">
         <div className="row">
-          <div className="col-md-3">
+          {" "}
+          <h5 className=" mt-3 card-heading">Filter Data</h5>
+        </div>
+        <div className="row">
+          {/* <div className="col-md-3 mt-2">
+            <input
+              type="text"
+              name="politicalPartyId"
+              value={filters.politicalPartyId}
+              onChange={handleFilterChange}
+              placeholder="Req Id"
+              className="form-control"
+            />
+          </div> */}
+          <div className="col-md-3 mt-2">
             <input
               type="text"
               name="name"
@@ -231,18 +245,19 @@ const ViewMembers = () => {
               className="form-control custom-font"
             />
           </div>
-          <div className="col-md-3">
+          <div className="col-md-3 mt-2">
             <input
               type="text"
               name="nic"
               value={filters.nic}
               onChange={handleFilterChange}
-              placeholder="Filter by NIC"
+              placeholder="NIC"
               className="form-control"
             />
           </div>
-          <div className="col-md-3">
+          <div className="col-md-3 mt-2">
             <input
+              placeholder="DOB"
               type="date"
               name="dob"
               value={filters.dob}
@@ -250,14 +265,14 @@ const ViewMembers = () => {
               className="form-control"
             />
           </div>
-          <div className="col-md-3">
+          <div className="col-md-3 mt-2">
             <input
               type="text"
               name="poolingBooth"
               value={filters.poolingBooth}
               onChange={handleFilterChange}
-              placeholder="Filter by Pooling Booth"
-              className="form-control"
+              placeholder="fmda,sx nQ;a"
+              className="form-control custom-font"
             />
           </div>
           <div className="col-md-3 mt-2">
@@ -266,8 +281,8 @@ const ViewMembers = () => {
               name="gsDivision"
               value={filters.gsDivision}
               onChange={handleFilterChange}
-              placeholder="Filter by GS Division"
-              className="form-control"
+              placeholder=".%dufiajd jiu"
+              className="form-control custom-font"
             />
           </div>
           <div className="col-md-3 mt-2">
@@ -276,18 +291,30 @@ const ViewMembers = () => {
               name="agaDivision"
               value={filters.agaDivision}
               onChange={handleFilterChange}
-              placeholder="Filter by AGA Division"
-              className="form-control"
+              placeholder="m%dfoaYSh f,alï fldÜgdih"
+              className="form-control custom-font"
+            />
+          </div>
+          <div className="col-md-3 mt-2">
+            <input
+              type="text"
+              name="agaDivision"
+              value={filters.agaDivision}
+              onChange={handleFilterChange}
+              placeholder="Political Party Number"
+              className="form-control "
             />
           </div>
           <div className="col-md-3 mt-2">
             <select
-              name="priority"
+              name="m%uqL;dj"
               value={filters.priority}
               onChange={handleFilterChange}
-              className="form-control"
+              className="form-control custom-font"
             >
-              <option value="">Filter by Priority</option>
+              <option value="" className="custom-font">
+                m%uqL;dj
+              </option>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -336,7 +363,9 @@ const ViewMembers = () => {
                 )}
                 {selectedColumns.nic && <td>{entry.nic}</td>}
                 {selectedColumns.gsDivision && (
-                  <td>{entry.gsDivision?.label || entry.gsDivision || "-"}</td>
+                  <td className="custom-font">
+                    {entry.gsDivision?.label || entry.gsDivision || "-"}
+                  </td>
                 )}
                 {selectedColumns.priority && <td>{entry.priority}</td>}
                 <td>
@@ -445,6 +474,10 @@ const ViewMembers = () => {
                     <td
                       className={
                         key === "communities" ||
+                        key === "poolingBooth" ||
+                        key === "agaDivision" ||
+                        key === "region" ||
+                        key === "gsDivision" ||
                         key === "address" ||
                         key === "name"
                           ? "custom-font"

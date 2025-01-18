@@ -71,8 +71,8 @@ const Form = () => {
       .then(() => {
         alert("Form submitted successfully!");
         setFormData({
-          id: "",
-          polPartyId: "",
+          RegID: "",
+          politicalPartyId: "",
           name: "",
           nic: "",
           mobile1: "",
@@ -109,7 +109,7 @@ const Form = () => {
       </h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label className="form-label">Name</label>
+          <label className="form-label custom-font">iïmQ¾K ku</label>
           <input
             type="text"
             className="form-control custom-font"
@@ -122,33 +122,33 @@ const Form = () => {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">NIC Number</label>
+          <label className="form-label custom-font">cd' ye' wxlh</label>
           <input
             type="text"
             className="form-control"
             name="nic"
             value={formData.nic}
             onChange={handleChange}
-            placeholder="National Identity Card number"
+            placeholder="NIC"
             required
           />
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Mobile Number 1</label>
+          <label className="form-label custom-font">cx.u ÿrl;k wxl 01</label>
           <input
             type="tel"
-            className="form-control"
+            className="form-control custom-font"
             name="mobile1"
             value={formData.mobile1}
             onChange={handleChange}
-            placeholder="Primary mobile number"
+            placeholder="ÿrl;k wxl 01 we;=,;a lrkak"
             required
           />
         </div>
 
         <div className="mb-3">
-          <label className="form-label">WhatsApp Number</label>
+          <label className="form-label custom-font">jÜia-wema wxlh</label>
           <input
             type="tel"
             className="form-control"
@@ -161,31 +161,35 @@ const Form = () => {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Mobile Number 2 (Optional)</label>
+          <label className="form-label custom-font">
+            cx.u ÿrl;k wxl 02 ^úl,am&
+          </label>
           <input
             type="tel"
-            className="form-control"
+            className="form-control custom-font"
             name="mobile2"
             value={formData.mobile2}
             onChange={handleChange}
-            placeholder="Secondary mobile number"
+            placeholder="ÿrl;k wxl 02 we;=,;a lrkak"
           />
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Home Number (Optional)</label>
+          <label className="form-label custom-font">
+            ia:djr ÿrl;k wxl ^úl,am&
+          </label>
           <input
             type="tel"
-            className="form-control"
+            className="form-control custom-font"
             name="homeNumber"
             value={formData.homeNumber}
             onChange={handleChange}
-            placeholder="Home phone number"
+            placeholder="ia:djr ÿrl;k wxlh we;=,;a lrkak"
           />
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Address</label>
+          <label className="form-label custom-font">,smskh</label>
           <textarea
             className="form-control custom-font"
             name="address"
@@ -197,7 +201,7 @@ const Form = () => {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Date of Birth</label>
+          <label className="form-label custom-font">Wmka Èkh</label>
           <input
             type="date"
             className="form-control"
@@ -209,62 +213,74 @@ const Form = () => {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Membership Number</label>
+          <label className="form-label custom-font">mlaI idudðl wxlh</label>
           <input
             type="text"
+            required
             className="form-control"
-            name="polPartyId"
-            value={formData.polPartyId}
+            name="politicalPartyId"
+            value={formData.politicalPartyId}
             onChange={handleChange}
-            placeholder="Membership Number"
+            placeholder="Unique ID"
             pattern="\d{6}"
             title="Membership number must be 6 digits"
           />
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Region</label>
+          <label className="form-label custom-font">wdikh</label>
           <Select
             options={region}
+            required
             onChange={(option) => handleSelectChange("region", option)}
             isSearchable
-            placeholder="Select your region"
+            className="custom-font"
+            placeholder="wdikh f;darkak"
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Poling Booth</label>
+          <label className="form-label custom-font">fmd,sx nQ;a</label>
           <Select
             options={poolingOptions}
+            required
+            className="custom-font"
             onChange={(option) => handleSelectChange("poolingBooth", option)}
             isSearchable
-            placeholder="Select your pooling booth"
+            placeholder="fmd,sx nQ;a wxlh f;darkak"
           />
         </div>
 
         <div className="mb-3">
-          <label className="form-label">GS Division</label>
+          <label className="form-label custom-font">.%dufiajd jiu</label>
           <Select
             options={gsOptions}
+            required
             onChange={(option) => handleSelectChange("gsDivision", option)}
             isSearchable
-            placeholder="Select your GS Division"
+            className="custom-font"
+            placeholder=".%dufiajd jiu f;darkak"
           />
         </div>
 
         <div className="mb-3">
-          <label className="form-label">AGA Division</label>
+          <label className="form-label custom-font">
+            m%dfoaYSh f,alï ld¾hd,h
+          </label>
           <Select
             options={agaOptions}
+            required
             onChange={(option) => handleSelectChange("agaDivision", option)}
+            className="custom-font"
             isSearchable
-            placeholder="Select your AGA Division"
+            placeholder="m%dfoaYSh f,alï ld¾hd,h f;darkak"
           />
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Priority Level</label>
+          <label className="form-label custom-font">m%uqL;dj</label>
           <select
             className="form-select"
+            required
             name="priority"
             value={formData.priority}
             onChange={handleChange}
@@ -278,7 +294,7 @@ const Form = () => {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Communities</label>
+          <label className="form-label custom-font">idudðl;ajhka</label>
           <Select
             options={communityOptions}
             onChange={handleMultiSelectChange}
@@ -289,20 +305,20 @@ const Form = () => {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Connectivity</label>
+          <label className="form-label custom-font">fjk;a úia;r</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control custom-font"
             name="connectivity"
             value={formData.connectivity}
             onChange={handleChange}
-            placeholder="Enter your connectivity details"
+            placeholder="iduðlhdf.a fjk;a úia;r"
           />
         </div>
 
         <button
           type="submit"
-          className="btn btn-primary w-100 mt-3 custom-btn"
+          className="btn btn-primary w-100 mt-3 custom-btn "
           style={{ padding: "0.75rem" }}
         >
           Submit

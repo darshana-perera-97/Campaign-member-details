@@ -121,15 +121,15 @@ app.post("/submit", (req, res) => {
 
     function generateNextId(formData, nextIdNum) {
       const regionPrefix =
-        formData.region?.value?.substring(0, 2).toUpperCase() || "XX";
+        formData.region?.sub?.substring(0, 2).toUpperCase() || "XX";
       const gsPrefix =
         formData.gsDivision?.value?.substring(0, 2).toUpperCase() || "XX";
       return `${regionPrefix}-${gsPrefix}-${nextIdNum}`;
     }
 
-    formData.id = generateNextId(formData, nextIdNum);
+    formData.RegID = generateNextId(formData, nextIdNum);
 
-    console.log(formData.id);
+    console.log(formData.RegID);
     existingData.push(formData);
 
     fs.writeFileSync(dataFilePath, JSON.stringify(existingData, null, 2));
