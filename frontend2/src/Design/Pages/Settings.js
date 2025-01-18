@@ -5,8 +5,10 @@ export default function Settings() {
   return (
     <div>
       <TopBar />
-      se
-      <settingsPage/>
+      <h2 className="text-center mb-4 mt-5 pt-5 card-heading">
+        DEV Release on Jan 18, 2025
+      </h2>
+      <settingsPage />
     </div>
   );
 }
