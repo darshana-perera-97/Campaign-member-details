@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Select from "react-select";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { poolingOptions, gsOptions, agaOptions, region } from "./data";
+import API_BASE_URL from "./../baseURL";
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -25,7 +26,7 @@ const Form = () => {
 
   // Fetch community options
   React.useEffect(() => {
-    fetch("http://localhost:5000/communities")
+    fetch(`${API_BASE_URL}/communities`)
       .then((response) => response.json())
       .then((data) => {
         const options = data.map((community) => ({

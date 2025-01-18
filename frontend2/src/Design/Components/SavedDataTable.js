@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button } from "react-bootstrap";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import API_BASE_URL from "./../baseURL";
 
 const SavedDataTable = () => {
   const [data, setData] = useState([]); // Data from the server
@@ -34,7 +35,7 @@ const SavedDataTable = () => {
 
   // Fetch saved data from the server
   useEffect(() => {
-    fetch("http://localhost:5000/data")
+    fetch(`${API_BASE_URL}/data`)
       .then((response) => response.json())
       .then((data) => {
         setData(data);

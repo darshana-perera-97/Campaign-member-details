@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import API_BASE_URL from "./../baseURL";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -11,7 +12,7 @@ const UserList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:5000/users")
+    fetch(`${API_BASE_URL}/users`)
       .then((response) => response.json())
       .then((data) => setUsers(data))
       .catch((error) => console.error("Error fetching users:", error));
@@ -20,7 +21,7 @@ const UserList = () => {
   const handlePasswordUpdate = (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:5000/update-password", {
+    fetch(`${API_BASE_URL}/update-password`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formValues),
