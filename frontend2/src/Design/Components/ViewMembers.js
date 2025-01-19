@@ -307,6 +307,26 @@ const ViewMembers = () => {
           <div className="col-md-3 mt-2">
             <input
               type="text"
+              name="RegID"
+              value={filters.RegID}
+              onChange={handleFilterChange}
+              placeholder="RegID"
+              className="form-control"
+            />
+          </div>
+          <div className="col-md-3 mt-2">
+            <input
+              type="text"
+              name="region"
+              value={filters.region}
+              onChange={handleFilterChange}
+              placeholder="wdikh"
+              className="form-control custom-font"
+            />
+          </div>
+          <div className="col-md-3 mt-2">
+            <input
+              type="text"
               name="poolingBooth"
               value={filters.poolingBooth}
               onChange={handleFilterChange}
@@ -314,6 +334,7 @@ const ViewMembers = () => {
               className="form-control custom-font"
             />
           </div>
+
           <div className="col-md-3 mt-2">
             <input
               type="text"
@@ -344,6 +365,7 @@ const ViewMembers = () => {
               className="form-control "
             />
           </div> */}
+
           <div className="col-md-3 mt-2">
             <select
               name="m%uqL;dj"
@@ -361,16 +383,7 @@ const ViewMembers = () => {
               <option value="5">5</option>
             </select>
           </div>
-          <div className="col-md-3 mt-2">
-            <input
-              type="text"
-              name="RegID"
-              value={filters.RegID}
-              onChange={handleFilterChange}
-              placeholder="RegID"
-              className="form-control"
-            />
-          </div>
+
           <div className="col-md-3 mt-2">
             <input
               type="text"
@@ -378,16 +391,6 @@ const ViewMembers = () => {
               value={filters.politicalPartyId}
               onChange={handleFilterChange}
               placeholder="Political Party ID"
-              className="form-control"
-            />
-          </div>
-          <div className="col-md-3 mt-2">
-            <input
-              type="text"
-              name="region"
-              value={filters.region}
-              onChange={handleFilterChange}
-              placeholder="Region"
               className="form-control"
             />
           </div>
