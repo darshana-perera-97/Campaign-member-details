@@ -8,6 +8,7 @@ import Login from "./Pages/Login";
 import Dashboard from "./Pages/Dashboard";
 import Community from "./Pages/Community";
 import Settings from "./Pages/Settings";
+import Campaigns from "./Pages/Campaigns";
 
 export default function Design() {
   // State to manage authentication
@@ -50,7 +51,10 @@ export default function Design() {
 
           {/* Office: Additional access */}
           {hasAccess(["Office", "Admin"]) && (
-            <Route path="/add" element={<AddMan />} />
+            <>
+              <Route path="/campaigns" element={<Campaigns roll={roll} />} />
+              <Route path="/add" element={<AddMan />} />
+            </>
           )}
 
           {/* Redirect unknown paths */}

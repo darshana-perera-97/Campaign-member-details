@@ -66,6 +66,13 @@ const DashboardCardView = (prop) => {
       title: "Community",
       roles: ["Admin"],
     },
+    {
+      path: "/campaigns",
+      imgSrc: communities,
+      imgAlt: "Campaigns",
+      title: "Campaigns",
+      roles: ["Admin", "Office"],
+    },
   ];
 
   return (
