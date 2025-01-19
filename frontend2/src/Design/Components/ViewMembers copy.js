@@ -33,6 +33,7 @@ const ViewMembers = () => {
     gsDivision: true,
     poolingBooth: true,
     priority: true,
+    region: true,
   });
   const [modalData, setModalData] = useState(null); // Data for View More modal
 
@@ -104,35 +105,70 @@ const ViewMembers = () => {
   // Download PDF
   const handleDownloadPDF = () => {
     const doc = new jsPDF();
+
+    doc.addFileToVFS(
+      "../fonts/FM-Malithi.ttf",
+      "---"
+    );
+    doc.addFont("../fonts/FM-Malithi.ttf", "CustomFont", "normal");
+
+    // Set the custom font for the entire document
+    doc.setFont("CustomFont");
+
+    // Add some text to demonstrate the custom font
+    doc.text(20, 20, "This is a sample text with the custom font.");
+
+    // Get selected columns
     const columns = Object.keys(selectedColumns).filter(
       (key) => selectedColumns[key]
     );
 
+    // Map filtered data to rows
     const rows = filteredData.map((entry) =>
       columns.map((col) => {
         if (col === "gsDivision" || col === "poolingBooth") {
-          // Extract the label or fallback to a string value
           return entry[col]?.label || entry[col] || "-";
         }
         return entry[col] || "-";
       })
     );
 
+    // Set up autoTable with custom styles
     doc.autoTable({
       head: [columns],
       body: rows,
+      styles: {
+        cellPadding: 2,
+        overflow: "linebreak",
+        lineColor: [0, 0, 0],
+        lineWidth: 0.1,
+        font: "CustomFont", // Ensure custom font is used in autoTable
+      },
+      didDrawCell: (data) => {
+        // Custom logic for drawing cells can go here if needed
+        // For example, you can still check specific conditions if necessary
+      },
     });
 
+    // Save the generated PDF
     doc.save("filtered_data.pdf");
+
+    // Close modal if applicable
     setShowModal(false);
   };
 
   // Download Address PDF
   const handleDownloadAddressPDF = () => {
     const doc = new jsPDF();
+
+    // Add custom font (replace with your base64 encoded font)
+    doc.addFileToVFS("../fonts/FM-Malithi.ttf", "---");
+    doc.addFont("../fonts/FM-Malithi.ttf", "CustomFont", "normal");
+
+    doc.setFont("CustomFont"); // Set the custom font
     doc.setFontSize(14); // Set text size to 14px
     const itemsPerPage = 18; // 3 rows x 7 columns
-    const boxWidth = 65;
+    const boxWidth = 105;
     const boxHeight = 35;
     const marginX = 0;
     const marginY = 1;
@@ -140,7 +176,6 @@ const ViewMembers = () => {
     const pageHeight = doc.internal.pageSize.getHeight();
     let x = marginX;
     let y = marginY;
-    let count = 0;
 
     filteredData.forEach((entry, index) => {
       const name = entry.name || "-";
@@ -151,7 +186,6 @@ const ViewMembers = () => {
       doc.text(content, x + 2, y + 8);
 
       x += boxWidth; // Move to the next column
-      count++;
 
       if (x + boxWidth > pageWidth) {
         x = marginX; // Reset to the first column
@@ -185,7 +219,21 @@ const ViewMembers = () => {
       {/* Filter Inputs */}
       <div className="mb-5">
         <div className="row">
-          <div className="col-md-3">
+          {" "}
+          <h5 className=" mt-3 card-heading">Filter Data</h5>
+        </div>
+        <div className="row">
+          {/* <div className="col-md-3 mt-2">
+            <input
+              type="text"
+              name="politicalPartyId"
+              value={filters.politicalPartyId}
+              onChange={handleFilterChange}
+              placeholder="Req Id"
+              className="form-control"
+            />
+          </div> */}
+          <div className="col-md-3 mt-2">
             <input
               type="text"
               name="name"
@@ -195,18 +243,19 @@ const ViewMembers = () => {
               className="form-control custom-font"
             />
           </div>
-          <div className="col-md-3">
+          <div className="col-md-3 mt-2">
             <input
               type="text"
               name="nic"
               value={filters.nic}
               onChange={handleFilterChange}
-              placeholder="Filter by NIC"
+              placeholder="NIC"
               className="form-control"
             />
           </div>
-          <div className="col-md-3">
+          <div className="col-md-3 mt-2">
             <input
+              placeholder="DOB"
               type="date"
               name="dob"
               value={filters.dob}
@@ -214,14 +263,14 @@ const ViewMembers = () => {
               className="form-control"
             />
           </div>
-          <div className="col-md-3">
+          <div className="col-md-3 mt-2">
             <input
               type="text"
               name="poolingBooth"
               value={filters.poolingBooth}
               onChange={handleFilterChange}
-              placeholder="Filter by Pooling Booth"
-              className="form-control"
+              placeholder="fmda,sx nQ;a"
+              className="form-control custom-font"
             />
           </div>
           <div className="col-md-3 mt-2">
@@ -230,8 +279,8 @@ const ViewMembers = () => {
               name="gsDivision"
               value={filters.gsDivision}
               onChange={handleFilterChange}
-              placeholder="Filter by GS Division"
-              className="form-control"
+              placeholder=".%dufiajd jiu"
+              className="form-control custom-font"
             />
           </div>
           <div className="col-md-3 mt-2">
@@ -240,18 +289,30 @@ const ViewMembers = () => {
               name="agaDivision"
               value={filters.agaDivision}
               onChange={handleFilterChange}
-              placeholder="Filter by AGA Division"
-              className="form-control"
+              placeholder="m%dfoaYSh f,alï fldÜgdih"
+              className="form-control custom-font"
+            />
+          </div>
+          <div className="col-md-3 mt-2">
+            <input
+              type="text"
+              name="agaDivision"
+              value={filters.agaDivision}
+              onChange={handleFilterChange}
+              placeholder="Political Party Number"
+              className="form-control "
             />
           </div>
           <div className="col-md-3 mt-2">
             <select
-              name="priority"
+              name="m%uqL;dj"
               value={filters.priority}
               onChange={handleFilterChange}
-              className="form-control"
+              className="form-control custom-font"
             >
-              <option value="">Filter by Priority</option>
+              <option value="" className="custom-font">
+                m%uqL;dj
+              </option>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -300,7 +361,9 @@ const ViewMembers = () => {
                 )}
                 {selectedColumns.nic && <td>{entry.nic}</td>}
                 {selectedColumns.gsDivision && (
-                  <td>{entry.gsDivision?.label || entry.gsDivision || "-"}</td>
+                  <td className="custom-font">
+                    {entry.gsDivision?.label || entry.gsDivision || "-"}
+                  </td>
                 )}
                 {selectedColumns.priority && <td>{entry.priority}</td>}
                 <td>
@@ -408,7 +471,13 @@ const ViewMembers = () => {
                     <td>{key}</td>
                     <td
                       className={
-                        key === "address" || key === "address" || key === "name"
+                        key === "communities" ||
+                        key === "poolingBooth" ||
+                        key === "agaDivision" ||
+                        key === "region" ||
+                        key === "gsDivision" ||
+                        key === "address" ||
+                        key === "name"
                           ? "custom-font"
                           : ""
                       }

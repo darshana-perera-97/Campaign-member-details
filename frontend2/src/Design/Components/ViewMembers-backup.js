@@ -19,7 +19,6 @@ const ViewMembers = () => {
     gsDivision: "",
     agaDivision: "",
     priority: "",
-    designation: "",
   });
   const [showModal, setShowModal] = useState(false); // Modal state
   const [selectedColumns, setSelectedColumns] = useState({
@@ -101,30 +100,6 @@ const ViewMembers = () => {
   const handleColumnChange = (e) => {
     const { name, checked } = e.target;
     setSelectedColumns({ ...selectedColumns, [name]: checked });
-  };
-
-  const handleDownloadNumberList = () => {
-    // Extract mobile numbers
-    const rows = filteredData.map((entry) => [
-      entry.designation || "-",
-      entry.mobile1 || "-",
-      entry.mobile2 || "-",
-    ]);
-
-    // Prepare CSV content
-    const csvContent =
-      "designation\n" +
-      rows
-        .flatMap((row) => row.slice(1).filter((num) => num !== "-"))
-        .join("\n");
-
-    // Create a Blob and download the CSV
-    const blob = new Blob([csvContent], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "number_list.csv";
-    link.click();
   };
 
   // Download PDF
@@ -349,16 +324,6 @@ const ViewMembers = () => {
             </select>
           </div>
           <div className="col-md-3 mt-2">
-            <input
-              type="text"
-              name="designation"
-              value={filters.designation}
-              onChange={handleFilterChange}
-              placeholder="Designation"
-              className="form-control"
-            />
-          </div>
-          <div className="col-md-3 mt-2">
             <button
               className="btn btn-primary btn-sm mt-1 "
               onClick={() =>
@@ -456,13 +421,10 @@ const ViewMembers = () => {
           Download as PDF
         </button>
         <button
-          className="btn btn-secondary me-2"
+          className="btn btn-secondary"
           onClick={handleDownloadAddressPDF}
         >
           Download Address
-        </button>
-        <button className="btn btn-info" onClick={handleDownloadNumberList}>
-          Download Number List
         </button>
       </div>
 
