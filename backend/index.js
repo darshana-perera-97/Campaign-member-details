@@ -12,9 +12,9 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // File paths
-const dataFilePath = path.join(__dirname, "submittedData.json");
-const communitiesFilePath = path.join(__dirname, "communities.json");
-const usersFilePath = path.join(__dirname, "users.json");
+const dataFilePath = path.join(__dirname, "userData.json");
+const communitiesFilePath = path.join(__dirname, "communitiesList.json");
+const usersFilePath = path.join(__dirname, "userList.json");
 
 // Ensure data files exist
 if (!fs.existsSync(dataFilePath)) {

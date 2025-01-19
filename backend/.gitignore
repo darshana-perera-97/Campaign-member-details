@@ -2,6 +2,12 @@
 
 # dependencies
 /node_modules
+/userList.json
+/communitiesList.json
+/userData.json
+
+
+/.json
 /.pnp
 .pnp.js
 
