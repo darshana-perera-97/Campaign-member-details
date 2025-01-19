@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button } from "react-bootstrap";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import API_BASE_URL from "./../baseURL";
+import API_BASE_URL from "../baseURL";
 
 const ViewMembers = () => {
   const [data, setData] = useState([]); // Data from the server
@@ -19,6 +19,7 @@ const ViewMembers = () => {
     gsDivision: "",
     agaDivision: "",
     priority: "",
+    designation: "",
   });
   const [showModal, setShowModal] = useState(false); // Modal state
   const [selectedColumns, setSelectedColumns] = useState({
@@ -102,14 +103,37 @@ const ViewMembers = () => {
     setSelectedColumns({ ...selectedColumns, [name]: checked });
   };
 
+  const handleDownloadNumberList = () => {
+    // Extract mobile numbers
+    const rows = filteredData.map((entry) => [
+      entry.designation || "-",
+      entry.mobile1 || "-",
+      entry.mobile2 || "-",
+    ]);
+
+    // Prepare CSV content
+    const csvContent =
+      "designation\n" +
+      rows
+        .flatMap((row) => row.slice(1).filter((num) => num !== "-"))
+        .join("\n");
+
+    // Create a Blob and download the CSV
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "number_list.csv";
+    link.click();
+  };
+
   // Download PDF
   const handleDownloadPDF = () => {
     const doc = new jsPDF();
 
     doc.addFileToVFS(
       "../fonts/FM-Malithi.ttf",
-      "---"
-    );
+      "---");
     doc.addFont("../fonts/FM-Malithi.ttf", "CustomFont", "normal");
 
     // Set the custom font for the entire document
@@ -162,7 +186,9 @@ const ViewMembers = () => {
     const doc = new jsPDF();
 
     // Add custom font (replace with your base64 encoded font)
-    doc.addFileToVFS("../fonts/FM-Malithi.ttf", "---");
+    doc.addFileToVFS(
+      "../fonts/FM-Malithi.ttf",
+      "---");
     doc.addFont("../fonts/FM-Malithi.ttf", "CustomFont", "normal");
 
     doc.setFont("CustomFont"); // Set the custom font
@@ -293,7 +319,7 @@ const ViewMembers = () => {
               className="form-control custom-font"
             />
           </div>
-          <div className="col-md-3 mt-2">
+          {/* <div className="col-md-3 mt-2">
             <input
               type="text"
               name="agaDivision"
@@ -302,7 +328,7 @@ const ViewMembers = () => {
               placeholder="Political Party Number"
               className="form-control "
             />
-          </div>
+          </div> */}
           <div className="col-md-3 mt-2">
             <select
               name="m%uqL;dj"
@@ -319,6 +345,16 @@ const ViewMembers = () => {
               <option value="4">4</option>
               <option value="5">5</option>
             </select>
+          </div>
+          <div className="col-md-3 mt-2">
+            <input
+              type="text"
+              name="region"
+              value={filters.region}
+              onChange={handleFilterChange}
+              placeholder="Designation"
+              className="form-control"
+            />
           </div>
           <div className="col-md-3 mt-2">
             <button
@@ -418,10 +454,13 @@ const ViewMembers = () => {
           Download as PDF
         </button>
         <button
-          className="btn btn-secondary"
+          className="btn btn-secondary me-2"
           onClick={handleDownloadAddressPDF}
         >
           Download Address
+        </button>
+        <button className="btn btn-info" onClick={handleDownloadNumberList}>
+          Download Number List
         </button>
       </div>
 

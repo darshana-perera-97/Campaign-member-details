@@ -20,6 +20,9 @@ const ViewMembers = () => {
     agaDivision: "",
     priority: "",
     designation: "",
+    RegID: "", // New filter for RegID
+    politicalPartyId: "", // New filter for politicalPartyId
+    region: "", // New filter for region
   });
   const [showModal, setShowModal] = useState(false); // Modal state
   const [selectedColumns, setSelectedColumns] = useState({
@@ -65,6 +68,8 @@ const ViewMembers = () => {
           entry.name.toLowerCase().includes(filters.name.toLowerCase())) &&
         (!filters.nic ||
           entry.nic.toLowerCase().includes(filters.nic.toLowerCase())) &&
+        (!filters.nic ||
+          entry.nic.toLowerCase().includes(filters.nic.toLowerCase())) &&
         (!filters.dob || entry.dob === filters.dob) &&
         (!filters.poolingBooth ||
           (entry.poolingBooth?.label || entry.poolingBooth || "")
@@ -78,7 +83,15 @@ const ViewMembers = () => {
           (entry.agaDivision?.label || entry.agaDivision || "")
             .toLowerCase()
             .includes(filters.agaDivision.toLowerCase())) &&
-        (!filters.priority || entry.priority === filters.priority)
+        (!filters.priority || entry.priority === filters.priority) &&
+        (!filters.RegID ||
+          entry.RegID.toLowerCase().includes(filters.RegID.toLowerCase())) &&
+        (!filters.politicalPartyId ||
+          entry.politicalPartyId.includes(filters.politicalPartyId)) &&
+        (!filters.region ||
+          (entry.region?.label || entry.region || "")
+            .toLowerCase()
+            .includes(filters.region.toLowerCase()))
       );
     });
     setFilteredData(filtered);
@@ -321,7 +334,7 @@ const ViewMembers = () => {
               className="form-control custom-font"
             />
           </div>
-          <div className="col-md-3 mt-2">
+          {/* <div className="col-md-3 mt-2">
             <input
               type="text"
               name="agaDivision"
@@ -330,7 +343,7 @@ const ViewMembers = () => {
               placeholder="Political Party Number"
               className="form-control "
             />
-          </div>
+          </div> */}
           <div className="col-md-3 mt-2">
             <select
               name="m%uqL;dj"
@@ -351,13 +364,34 @@ const ViewMembers = () => {
           <div className="col-md-3 mt-2">
             <input
               type="text"
-              name="designation"
-              value={filters.designation}
+              name="RegID"
+              value={filters.RegID}
               onChange={handleFilterChange}
-              placeholder="Designation"
+              placeholder="RegID"
               className="form-control"
             />
           </div>
+          <div className="col-md-3 mt-2">
+            <input
+              type="text"
+              name="politicalPartyId"
+              value={filters.politicalPartyId}
+              onChange={handleFilterChange}
+              placeholder="Political Party ID"
+              className="form-control"
+            />
+          </div>
+          <div className="col-md-3 mt-2">
+            <input
+              type="text"
+              name="region"
+              value={filters.region}
+              onChange={handleFilterChange}
+              placeholder="Region"
+              className="form-control"
+            />
+          </div>
+
           <div className="col-md-3 mt-2">
             <button
               className="btn btn-primary btn-sm mt-1 "
