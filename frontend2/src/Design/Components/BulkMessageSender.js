@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import sms_server_url from "../smsServerURL";
 
 const BulkMessageSender = () => {
   const [file, setFile] = useState(null); // To store the uploaded file
@@ -31,7 +32,7 @@ const BulkMessageSender = () => {
 
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:3002/send-message-csv", {
+      const response = await fetch(`${sms_server_url}/send-message-csv`, {
         method: "POST",
         body: formData,
       });
@@ -44,7 +45,7 @@ const BulkMessageSender = () => {
         setStatus(errorData.error || "An error occurred while processing.");
       }
     } catch (error) {
-      setStatus("An error occurred while connecting to the server.");
+      setStatus("An error occurred while connecting to the SMS server.");
     } finally {
       setLoading(false);
     }
