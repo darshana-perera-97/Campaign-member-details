@@ -35,7 +35,14 @@ app.post("/login", (req, res) => {
     );
 
     if (user) {
-      console.log(`User Logged In: ${username}, Role: ${user.role}`); // Log role in backend
+      console.log(
+        `User Logged In: ${username}, Role: ${
+          user.role
+        }, Time: ${require("moment-timezone")
+          .tz("Asia/Colombo")
+          .format("YYYY-MM-DD HH:mm:ss")}`
+      );
+
       res.status(200).json({ role: user.role, message: "Login successful" });
     } else {
       console.log(`Failed Login Attempt: ${username}`);
