@@ -6,6 +6,7 @@ const path = require("path");
 const { DateTime } = require("luxon");
 require("dotenv").config();
 const nodemailer = require("nodemailer");
+const whatsappRoutes = require("./whatsappClient");
 
 const app = express();
 const PORT = 5001;
@@ -40,6 +41,9 @@ if (!fs.existsSync(communitiesFilePath)) {
 
 const backupData = JSON.parse(fs.readFileSync(backupFilePath, "utf8"));
 var { Day, Time } = backupData;
+
+// WhatsApp Routes
+app.use("/", whatsappRoutes);
 
 app.post("/login", (req, res) => {
   const { username, password } = req.body;

@@ -2,6 +2,7 @@ import React from "react";
 import TopBar from "../Components/TopBar";
 import Backup from "./Backup";
 import BirthdaySetup from "../Layouts/BirthdaySetup";
+import WhatsappBulk from "../Layouts/WhatsappBulk";
 
 export default function Settings() {
   return (
@@ -13,6 +14,7 @@ export default function Settings() {
       <Backup />
       <settingsPage />
       <BirthdaySetup />
+      <WhatsappBulk />
     </div>
   );
 }
