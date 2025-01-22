@@ -1,18 +1,40 @@
 import React from "react";
+import { Tab, Nav } from "react-bootstrap";
 import TopBar from "../Components/TopBar";
 import Backup from "./Backup";
 import BirthdaySetup from "../Layouts/BirthdaySetup";
+import WhatsappBulk from "../Layouts/WhatsappBulk";
 
 export default function Settings() {
   return (
     <div>
       <TopBar />
-      <h2 className="text-center mb-4 mt-5 pt-5 card-heading">
-        DEV Release on Jan 19, 2025
-      </h2>
-      <Backup />
-      <settingsPage />
-      <BirthdaySetup />
+      <div className="container mt-4">
+        <Tab.Container defaultActiveKey="backup">
+          <Nav variant="tabs">
+            <Nav.Item>
+              <Nav.Link eventKey="backup">Backup</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="birthdaySetup">Birthday Setup</Nav.Link>
+            </Nav.Item>
+            {/* <Nav.Item>
+              <Nav.Link eventKey="whatsappBulk">WhatsApp Bulk</Nav.Link>
+            </Nav.Item> */}
+          </Nav>
+          <Tab.Content className="mt-3">
+            <Tab.Pane eventKey="backup">
+              <Backup />
+            </Tab.Pane>
+            <Tab.Pane eventKey="birthdaySetup">
+              <BirthdaySetup />
+            </Tab.Pane>
+            {/* <Tab.Pane eventKey="whatsappBulk">
+              <WhatsappBulk />
+            </Tab.Pane> */}
+          </Tab.Content>
+        </Tab.Container>
+      </div>
     </div>
   );
 }

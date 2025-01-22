@@ -8,6 +8,7 @@ export default function Backup() {
   return (
     <div>
       <BackupButton />
+      <hr />
       <EmailListManager />
       <ViewScheduleComponent />
       <ScheduleBackup />

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Button, Form, InputGroup, Alert, Spinner, ListGroup, Container, Row, Col } from "react-bootstrap";
 import API_BASE_URL from "./../baseURL";
 
 const EmailListManager = () => {
@@ -84,32 +85,50 @@ const EmailListManager = () => {
   };
 
   return (
-    <div>
-      <h2>Email List Manager</h2>
-      <div>
-        <input
-          type="email"
-          value={newEmail}
-          onChange={(e) => setNewEmail(e.target.value)}
-          placeholder="Enter email to add"
-        />
-        <button onClick={handleAddEmail} disabled={loading}>
-          {loading ? "Adding..." : "Add Email"}
-        </button>
-      </div>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <h3>Current Email List</h3>
-      <ul>
-        {emailList.map((email) => (
-          <li key={email}>
-            {email}
-            <button onClick={() => handleRemoveEmail(email)} disabled={loading}>
-              {loading ? "Removing..." : "Remove"}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Container>
+      <Row className="justify-content-center mt-5">
+        <Col md={6}>
+          <h2 className="text-center mb-4">Email List Manager</h2>
+          {error && (
+            <Alert variant="danger" onClose={() => setError("")} dismissible>
+              {error}
+            </Alert>
+          )}
+          <InputGroup className="mb-3">
+            <Form.Control
+              type="email"
+              value={newEmail}
+              onChange={(e) => setNewEmail(e.target.value)}
+              placeholder="Enter email to add"
+              aria-label="New email"
+            />
+            <Button variant="primary" onClick={handleAddEmail} disabled={loading}>
+              {loading ? <Spinner animation="border" size="sm" /> : "Add Email"}
+            </Button>
+          </InputGroup>
+          <h5 className="mt-4">Current Email List</h5>
+          {emailList.length > 0 ? (
+            <ListGroup>
+              {emailList.map((email) => (
+                <ListGroup.Item key={email} className="d-flex justify-content-between align-items-center">
+                  {email}
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => handleRemoveEmail(email)}
+                    disabled={loading}
+                  >
+                    {loading ? <Spinner animation="border" size="sm" /> : "Remove"}
+                  </Button>
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          ) : (
+            <p className="text-muted">No emails in the list.</p>
+          )}
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

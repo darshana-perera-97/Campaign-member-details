@@ -1,4 +1,13 @@
 import React, { useState, useEffect } from "react";
+import {
+  Form,
+  Button,
+  Spinner,
+  Alert,
+  Container,
+  Row,
+  Col,
+} from "react-bootstrap";
 import API_BASE_URL from "./../baseURL";
 
 const UpdateTimeForm = () => {
@@ -93,47 +102,72 @@ const UpdateTimeForm = () => {
   };
 
   return (
-    <div>
-      <h2>Update Scheduled Time</h2>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Hour (HH): </label>
-            <input
-              type="text"
-              value={hh}
-              onChange={(e) => setHh(validateTimeInput(e.target.value, 0, 23))}
-              placeholder="0-23"
-              required
-            />
-          </div>
-          <div>
-            <label>Minute (MM): </label>
-            <input
-              type="text"
-              value={mm}
-              onChange={(e) => setMm(validateTimeInput(e.target.value, 0, 59))}
-              placeholder="0-59"
-              required
-            />
-          </div>
-          <div>
-            <label>Message: </label>
-            <input
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Enter a message"
-              required
-            />
-          </div>
-          <button type="submit">Update Time</button>
-        </form>
-      )}
-      {responseMessage && <p>{responseMessage}</p>}
-    </div>
+    <Container>
+      <Row className="justify-content-center">
+        <Col xs={12} md={8} lg={6}>
+          <h2 className="text-center mb-4">Update Scheduled Time</h2>
+          {loading ? (
+            <div className="text-center">
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            </div>
+          ) : (
+            <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-3">
+                <Form.Label>Hour (HH):</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={hh}
+                  onChange={(e) =>
+                    setHh(validateTimeInput(e.target.value, 0, 23))
+                  }
+                  placeholder="0-23"
+                  required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Minute (MM):</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={mm}
+                  onChange={(e) =>
+                    setMm(validateTimeInput(e.target.value, 0, 59))
+                  }
+                  placeholder="0-59"
+                  required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Message:</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Enter a message"
+                  required
+                />
+              </Form.Group>
+              <div className="text-center">
+                <Button type="submit" variant="primary">
+                  Update Time
+                </Button>
+              </div>
+            </Form>
+          )}
+          {responseMessage && (
+            <Alert
+              variant={
+                responseMessage.includes("successfully") ? "success" : "danger"
+              }
+              className="mt-4"
+            >
+              {responseMessage}
+            </Alert>
+          )}
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
