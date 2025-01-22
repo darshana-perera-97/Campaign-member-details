@@ -1,6 +1,7 @@
 import React from "react";
 import TopBar from "../Components/TopBar";
 import Backup from "./Backup";
+import BirthdaySetup from "../Layouts/BirthdaySetup";
 
 export default function Settings() {
   return (
@@ -11,6 +12,7 @@ export default function Settings() {
       </h2>
       <Backup />
       <settingsPage />
+      <BirthdaySetup />
     </div>
   );
 }
