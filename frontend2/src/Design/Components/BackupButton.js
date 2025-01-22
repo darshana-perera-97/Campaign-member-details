@@ -22,19 +22,12 @@ const BackupButton = () => {
   };
 
   return (
-    <button
-      onClick={handleBackup}
-      style={{
-        padding: "10px 20px",
-        background: "#4CAF50",
-        color: "#fff",
-        border: "none",
-        borderRadius: "5px",
-        cursor: "pointer",
-      }}
-    >
-      Backup Now
-    </button>
+    <div className="text-center mt-4">
+      <h2 className="text-center mb-4">Backup your database Now</h2>
+      <button onClick={handleBackup} className="btn btn-success btn-lg mt-2">
+        Backup Now
+      </button>
+    </div>
   );
 };
 

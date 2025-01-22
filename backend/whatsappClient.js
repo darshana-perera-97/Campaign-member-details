@@ -1,9 +1,10 @@
-const { Client, LocalAuth } = require("whatsapp-web.js");
+const { Client, LocalAuth, MessageMedia } = require("whatsapp-web.js");
 const qrcode = require("qrcode");
 const multer = require("multer");
 const csv = require("csv-parser");
 const fs = require("fs");
 const express = require("express");
+const path = require("path");
 
 const router = express.Router();
 let qrCodeImage = "";
@@ -18,19 +19,16 @@ const client = new Client({
   },
 });
 
-// Event: QR Code generation
 client.on("qr", async (qr) => {
   console.log("QR Code generated.");
   qrCodeImage = await qrcode.toDataURL(qr);
 });
 
-// Event: Client ready
 client.on("ready", () => {
   console.log("WhatsApp client is ready!");
-  qrCodeImage = ""; // Clear the QR code
+  qrCodeImage = "";
 });
 
-// Event: Client disconnected
 client.on("disconnected", (reason) => {
   console.log("Client was logged out:", reason);
 });
@@ -39,22 +37,34 @@ client.initialize().catch((error) => {
   console.error("Failed to initialize WhatsApp client:", error);
 });
 
-// Routes
+const upload = multer({
+  dest: "uploads/",
+  fileFilter: (req, file, cb) => {
+    const filetypes = /csv|jpeg|jpg|png/;
+    const extname = filetypes.test(
+      path.extname(file.originalname).toLowerCase()
+    );
+    const mimetype = filetypes.test(file.mimetype);
+    if (extname && mimetype) {
+      return cb(null, true);
+    } else {
+      cb(new Error("Only .csv, .jpeg, .jpg, and .png files are allowed!"));
+    }
+  },
+});
+
 router.get("/whatsappQR", (req, res) => {
-  console.log("QR Code request received.");
   if (client.info && client.info.pushname) {
     res.status(200).send({
       status: "connected",
       message: `Device is connected as ${client.info.pushname}.`,
     });
   } else if (qrCodeImage) {
-    console.log("Sending QR code to client.");
     res.status(200).send({
       status: "disconnected",
       qr: qrCodeImage,
     });
   } else {
-    console.log("QR Code not available.");
     res.status(500).send({
       status: "error",
       message: "QR Code not available. Please try again later.",
@@ -62,42 +72,72 @@ router.get("/whatsappQR", (req, res) => {
   }
 });
 
+router.post(
+  "/send-messages",
+  upload.fields([
+    { name: "file", maxCount: 1 },
+    { name: "image", maxCount: 1 },
+  ]),
+  (req, res) => {
+    const filePath = req.files?.file?.[0]?.path;
+    const imageFile = req.files?.image?.[0]?.path; // Optional image file
+    const { message } = req.body;
 
-// File upload handling with Multer
-const upload = multer({ dest: "uploads/" });
+    if (!message) {
+      return res.status(400).send("Message is required.");
+    }
 
-router.post("/send-messages", upload.single("file"), (req, res) => {
-  const filePath = req.file.path;
-  const { message } = req.body;
+    if (!filePath) {
+      return res.status(400).send("CSV file is required.");
+    }
 
-  if (!message) {
-    return res.status(400).send("Message is required.");
-  }
+    const messages = [];
+    fs.createReadStream(filePath)
+      .pipe(csv())
+      .on("data", (row) => {
+        const phone = row["designation"];
+        if (phone) messages.push(phone);
+      })
+      .on("end", async () => {
+        fs.unlinkSync(filePath);
 
-  const messages = [];
-  fs.createReadStream(filePath)
-    .pipe(csv())
-    .on("data", (row) => {
-      const phone = row["designation"];
-      if (phone) messages.push(phone);
-    })
-    .on("end", async () => {
-      fs.unlinkSync(filePath);
+        for (const phone of messages) {
+          try {
+            if (imageFile) {
+              if (fs.existsSync(imageFile)) {
+                const ext = path.extname(imageFile).slice(1);
+                const mimeType = `image/${ext}`;
+                const media = MessageMedia.fromFilePath(imageFile);
+                media.mimetype = mimeType;
+                media.filename = path.basename(imageFile);
 
-      for (const phone of messages) {
-        try {
-          await client.sendMessage("94" + phone + "@c.us", message);
-          console.log(`Message sent to ${phone}`);
-        } catch (error) {
-          console.error(`Failed to send message to ${phone}:`, error);
+                await client.sendMessage(`94${phone}@c.us`, media, {
+                  caption: message,
+                });
+                console.log(`Message sent to ${phone} with image.`);
+              } else {
+                console.error(
+                  `Image file does not exist at path: ${imageFile}`
+                );
+              }
+            } else {
+              await client.sendMessage(`94${phone}@c.us`, message);
+              console.log(`Message sent to ${phone}`);
+            }
+          } catch (error) {
+            console.error(`Failed to send message to ${phone}:`, error);
+          }
         }
-      }
-      res.status(200).send("Messages sent successfully!");
-    })
-    .on("error", (error) => {
-      console.error("Error processing CSV file:", error);
-      res.status(500).send("Failed to process CSV file.");
-    });
-});
+
+        if (imageFile) fs.unlinkSync(imageFile);
+
+        res.status(200).send("Messages sent successfully!");
+      })
+      .on("error", (error) => {
+        console.error("Error processing CSV file:", error);
+        res.status(500).send("Failed to process CSV file.");
+      });
+  }
+);
 
 module.exports = router;

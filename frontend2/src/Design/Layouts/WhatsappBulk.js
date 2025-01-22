@@ -6,6 +6,7 @@ export default function WhatsappBulk() {
   return (
     <div>
       <WhatsAppQR />
+      
       <CsvUpload />
     </div>
   );
