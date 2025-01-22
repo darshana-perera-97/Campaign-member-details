@@ -6,6 +6,7 @@ import viewMembers from "../Assets/viewMembers.png";
 import settings from "../Assets/settings.png";
 import communities from "../Assets/communities.png";
 import users from "../Assets/users.png";
+import campaigns from "../Assets/campaigns.png";
 
 const DashboardCardView = (prop) => {
   // Define the card data and the roles that can access each card
@@ -68,8 +69,8 @@ const DashboardCardView = (prop) => {
     },
     {
       path: "/campaigns",
-      imgSrc: communities,
-      imgAlt: "Campaigns",
+      imgSrc: campaigns,
+      imgAlt: "campaigns",
       title: "Campaigns",
       roles: ["Admin", "Office"],
     },
