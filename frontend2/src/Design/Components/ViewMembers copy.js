@@ -20,6 +20,9 @@ const ViewMembers = () => {
     agaDivision: "",
     priority: "",
     designation: "",
+    RegID: "", // New filter for RegID
+    politicalPartyId: "", // New filter for politicalPartyId
+    region: "", // New filter for region
   });
   const [showModal, setShowModal] = useState(false); // Modal state
   const [selectedColumns, setSelectedColumns] = useState({
@@ -50,6 +53,28 @@ const ViewMembers = () => {
         console.error("Error fetching data:", error);
       });
   }, []);
+  
+  const handleDeleteUser = (nic) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      fetch(`${API_BASE_URL}/delete-user/${nic}`, {
+        method: "DELETE",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          alert(data.message);
+          setModalData(null);
+          // Refresh data after delete
+          fetch(`${API_BASE_URL}/data`)
+            .then((response) => response.json())
+            .then((data) => {
+              setData(data);
+              setFilteredData(data);
+            })
+            .catch((error) => console.error("Error fetching data:", error));
+        })
+        .catch((error) => console.error("Error deleting user:", error));
+    }
+  };
 
   // Handle filter change
   const handleFilterChange = (e) => {
@@ -65,6 +90,8 @@ const ViewMembers = () => {
           entry.name.toLowerCase().includes(filters.name.toLowerCase())) &&
         (!filters.nic ||
           entry.nic.toLowerCase().includes(filters.nic.toLowerCase())) &&
+        (!filters.nic ||
+          entry.nic.toLowerCase().includes(filters.nic.toLowerCase())) &&
         (!filters.dob || entry.dob === filters.dob) &&
         (!filters.poolingBooth ||
           (entry.poolingBooth?.label || entry.poolingBooth || "")
@@ -78,7 +105,15 @@ const ViewMembers = () => {
           (entry.agaDivision?.label || entry.agaDivision || "")
             .toLowerCase()
             .includes(filters.agaDivision.toLowerCase())) &&
-        (!filters.priority || entry.priority === filters.priority)
+        (!filters.priority || entry.priority === filters.priority) &&
+        (!filters.RegID ||
+          entry.RegID.toLowerCase().includes(filters.RegID.toLowerCase())) &&
+        (!filters.politicalPartyId ||
+          entry.politicalPartyId.includes(filters.politicalPartyId)) &&
+        (!filters.region ||
+          (entry.region?.label || entry.region || "")
+            .toLowerCase()
+            .includes(filters.region.toLowerCase()))
       );
     });
     setFilteredData(filtered);
@@ -131,9 +166,7 @@ const ViewMembers = () => {
   const handleDownloadPDF = () => {
     const doc = new jsPDF();
 
-    doc.addFileToVFS(
-      "../fonts/FM-Malithi.ttf",
-      "---");
+    doc.addFileToVFS("../fonts/FM-Malithi.ttf", "");
     doc.addFont("../fonts/FM-Malithi.ttf", "CustomFont", "normal");
 
     // Set the custom font for the entire document
@@ -186,9 +219,7 @@ const ViewMembers = () => {
     const doc = new jsPDF();
 
     // Add custom font (replace with your base64 encoded font)
-    doc.addFileToVFS(
-      "../fonts/FM-Malithi.ttf",
-      "---");
+    doc.addFileToVFS("../fonts/FM-Malithi.ttf", "");
     doc.addFont("../fonts/FM-Malithi.ttf", "CustomFont", "normal");
 
     doc.setFont("CustomFont"); // Set the custom font
@@ -292,6 +323,26 @@ const ViewMembers = () => {
           <div className="col-md-3 mt-2">
             <input
               type="text"
+              name="RegID"
+              value={filters.RegID}
+              onChange={handleFilterChange}
+              placeholder="RegID"
+              className="form-control"
+            />
+          </div>
+          <div className="col-md-3 mt-2">
+            <input
+              type="text"
+              name="region"
+              value={filters.region}
+              onChange={handleFilterChange}
+              placeholder="wdikh"
+              className="form-control custom-font"
+            />
+          </div>
+          <div className="col-md-3 mt-2">
+            <input
+              type="text"
               name="poolingBooth"
               value={filters.poolingBooth}
               onChange={handleFilterChange}
@@ -299,6 +350,7 @@ const ViewMembers = () => {
               className="form-control custom-font"
             />
           </div>
+
           <div className="col-md-3 mt-2">
             <input
               type="text"
@@ -329,6 +381,7 @@ const ViewMembers = () => {
               className="form-control "
             />
           </div> */}
+
           <div className="col-md-3 mt-2">
             <select
               name="m%uqL;dj"
@@ -346,16 +399,18 @@ const ViewMembers = () => {
               <option value="5">5</option>
             </select>
           </div>
+
           <div className="col-md-3 mt-2">
             <input
               type="text"
-              name="region"
-              value={filters.region}
+              name="politicalPartyId"
+              value={filters.politicalPartyId}
               onChange={handleFilterChange}
-              placeholder="Designation"
+              placeholder="Political Party ID"
               className="form-control"
             />
           </div>
+
           <div className="col-md-3 mt-2">
             <button
               className="btn btn-primary btn-sm mt-1 "

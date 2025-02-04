@@ -74,6 +74,50 @@ app.post("/login", (req, res) => {
   }
 });
 
+// Update a single user data by NIC
+app.put("/update-user/:nic", (req, res) => {
+  const { nic } = req.params;
+  const updatedUserData = req.body;
+
+  try {
+    let users = JSON.parse(fs.readFileSync(dataFilePath, "utf8"));
+    const userIndex = users.findIndex((user) => user.nic === nic);
+
+    if (userIndex === -1) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    users[userIndex] = { ...users[userIndex], ...updatedUserData };
+    fs.writeFileSync(dataFilePath, JSON.stringify(users, null, 2));
+
+    res.status(200).json({ message: "User data updated successfully" });
+  } catch (err) {
+    console.error("Error updating user:", err);
+    res.status(500).json({ message: "Failed to update user data" });
+  }
+});
+
+// Delete a single user data by NIC
+app.delete("/delete-user/:nic", (req, res) => {
+  const { nic } = req.params;
+
+  try {
+    let users = JSON.parse(fs.readFileSync(dataFilePath, "utf8"));
+    const updatedUsers = users.filter((user) => user.nic !== nic);
+
+    if (users.length === updatedUsers.length) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    fs.writeFileSync(dataFilePath, JSON.stringify(updatedUsers, null, 2));
+
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting user:", err);
+    res.status(500).json({ message: "Failed to delete user data" });
+  }
+});
+
 app.put("/update-password", (req, res) => {
   const { username, oldPassword, newPassword } = req.body;
 

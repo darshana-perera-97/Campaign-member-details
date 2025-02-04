@@ -10,6 +10,9 @@ const ViewMembers = () => {
   const [filteredData, setFilteredData] = useState([]); // Filtered data for display
   const [currentPage, setCurrentPage] = useState(1); // Current page for pagination
   const rowsPerPage = 8; // Maximum rows per page
+  const [isEditing, setIsEditing] = useState(false);
+  const [editableData, setEditableData] = useState(null);
+  const [communityOptions, setCommunityOptions] = useState([]);
 
   const [filters, setFilters] = useState({
     name: "",
@@ -53,6 +56,66 @@ const ViewMembers = () => {
         console.error("Error fetching data:", error);
       });
   }, []);
+
+  React.useEffect(() => {
+    fetch(`${API_BASE_URL}/communities`)
+      .then((response) => response.json())
+      .then((data) => {
+        const options = data.map((community) => ({
+          value: community.name,
+          label: community.name,
+        }));
+        setCommunityOptions(options);
+      })
+      .catch((error) => console.error("Error fetching communities:", error));
+  }, []);
+
+  const handleUpdateUser = () => {
+    fetch(`${API_BASE_URL}/update-user/${editableData.nic}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(editableData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        alert(data.message);
+        setIsEditing(false);
+        setModalData(null);
+        // Refresh data after update
+        fetch(`${API_BASE_URL}/data`)
+          .then((response) => response.json())
+          .then((data) => {
+            setData(data);
+            setFilteredData(data);
+          })
+          .catch((error) => console.error("Error fetching data:", error));
+      })
+      .catch((error) => console.error("Error updating user:", error));
+  };
+
+  const handleDeleteUser = (nic) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      fetch(`${API_BASE_URL}/delete-user/${nic}`, {
+        method: "DELETE",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          alert(data.message);
+          setModalData(null);
+          // Refresh data after delete
+          fetch(`${API_BASE_URL}/data`)
+            .then((response) => response.json())
+            .then((data) => {
+              setData(data);
+              setFilteredData(data);
+            })
+            .catch((error) => console.error("Error fetching data:", error));
+        })
+        .catch((error) => console.error("Error deleting user:", error));
+    }
+  };
 
   // Handle filter change
   const handleFilterChange = (e) => {
@@ -541,39 +604,124 @@ const ViewMembers = () => {
           <Modal.Title>Entry Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {modalData ? (
+          {isEditing ? (
+            editableData ? (
+              <table className="table table-bordered">
+                <tbody>
+                  {Object.entries(editableData)
+                    .filter(([key]) =>
+                      [
+                        "mobile1",
+                        "mobile2",
+                        "homeNumber",
+                        "priority",
+                        "communities",
+                        "connectivity",
+                        "politicalPartyId",
+                      ].includes(key)
+                    )
+                    .map(([key, value]) => (
+                      <tr key={key}>
+                        <td>{key}</td>
+                        <td>
+                          {key === "connectivity" ? (
+                            // Dropdown for connectivity
+                            <select
+                              className="form-control custom-font"
+                              name="connectivity"
+                              value={value?.value || ""}
+                              onChange={(e) =>
+                                setEditableData({
+                                  ...editableData,
+                                  connectivity: {
+                                    value: e.target.value,
+                                    label: e.target.value,
+                                  },
+                                })
+                              }
+                            >
+                              <option value="">f;darkak</option>
+                              {communityOptions.map((option, idx) => (
+                                <option key={idx} value={option.value}>
+                                  {option.label}
+                                </option>
+                              ))}
+                            </select>
+                          ) : Array.isArray(value) ? (
+                            // Handle arrays (like communities)
+                            value.map((item, idx) => (
+                              <input
+                                key={idx}
+                                type="text"
+                                className="form-control"
+                                value={item.label || ""}
+                                onChange={(e) => {
+                                  const updatedArray = [...value];
+                                  updatedArray[idx] = {
+                                    ...updatedArray[idx],
+                                    label: e.target.value,
+                                    value: e.target.value,
+                                  };
+                                  setEditableData({
+                                    ...editableData,
+                                    [key]: updatedArray,
+                                  });
+                                }}
+                              />
+                            ))
+                          ) : typeof value === "object" && value !== null ? (
+                            // Handle objects (like politicalPartyId)
+                            <input
+                              type="text"
+                              className="form-control"
+                              value={value.label || ""}
+                              onChange={(e) =>
+                                setEditableData({
+                                  ...editableData,
+                                  [key]: {
+                                    ...value,
+                                    label: e.target.value,
+                                    value: e.target.value,
+                                  },
+                                })
+                              }
+                            />
+                          ) : (
+                            // Handle normal text fields
+                            <input
+                              type="text"
+                              className="form-control"
+                              value={value || ""}
+                              onChange={(e) =>
+                                setEditableData({
+                                  ...editableData,
+                                  [key]: e.target.value,
+                                })
+                              }
+                            />
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            ) : (
+              <p>Loading...</p>
+            )
+          ) : modalData ? (
             <table className="table table-bordered">
               <tbody>
-                {Object.entries(modalData).map(([key, value], index) => (
-                  <tr key={index}>
+                {Object.entries(modalData).map(([key, value]) => (
+                  <tr key={key}>
                     <td>{key}</td>
-                    <td
-                      className={
-                        key === "communities" ||
-                        key === "poolingBooth" ||
-                        key === "agaDivision" ||
-                        key === "region" ||
-                        key === "gsDivision" ||
-                        key === "address" ||
-                        key === "name"
-                          ? "custom-font"
-                          : ""
-                      }
-                    >
-                      {
-                        Array.isArray(value)
-                          ? // Handle arrays, displaying the "label" property if available
-                            value.map((item, idx) =>
-                              typeof item === "object" && item?.label ? (
-                                <div key={idx}>{item.label}</div>
-                              ) : (
-                                <div key={idx}>{item.toString()}</div>
-                              )
-                            )
-                          : typeof value === "object" && value?.label
-                          ? value.label // Show the "label" if it's an object with a "label" property
-                          : value // Handle line breaks
-                      }
+                    <td>
+                      {Array.isArray(value)
+                        ? value.map((item, idx) => (
+                            <div key={idx}>{item.label || item.value}</div>
+                          ))
+                        : typeof value === "object" && value !== null
+                        ? value.label || value.value
+                        : value}
                     </td>
                   </tr>
                 ))}
@@ -585,9 +733,37 @@ const ViewMembers = () => {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setModalData(null)}>
-            Close
-          </Button>
+          {isEditing ? (
+            <>
+              <Button variant="success" onClick={handleUpdateUser}>
+                Save Changes
+              </Button>
+              <Button variant="secondary" onClick={() => setIsEditing(false)}>
+                Cancel
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                variant="warning"
+                onClick={() => {
+                  setEditableData({ ...modalData });
+                  setIsEditing(true);
+                }}
+              >
+                Edit
+              </Button>
+              <Button
+                variant="danger"
+                onClick={() => handleDeleteUser(modalData.nic)}
+              >
+                Delete
+              </Button>
+              <Button variant="secondary" onClick={() => setModalData(null)}>
+                Close
+              </Button>
+            </>
+          )}
         </Modal.Footer>
       </Modal>
     </div>

@@ -19,6 +19,10 @@ const ViewMembers = () => {
     gsDivision: "",
     agaDivision: "",
     priority: "",
+    designation: "",
+    RegID: "", // New filter for RegID
+    politicalPartyId: "", // New filter for politicalPartyId
+    region: "", // New filter for region
   });
   const [showModal, setShowModal] = useState(false); // Modal state
   const [selectedColumns, setSelectedColumns] = useState({
@@ -50,6 +54,28 @@ const ViewMembers = () => {
       });
   }, []);
 
+  const handleDeleteUser = (nic) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      fetch(`${API_BASE_URL}/delete-user/${nic}`, {
+        method: "DELETE",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          alert(data.message);
+          setModalData(null);
+          // Refresh data after delete
+          fetch(`${API_BASE_URL}/data`)
+            .then((response) => response.json())
+            .then((data) => {
+              setData(data);
+              setFilteredData(data);
+            })
+            .catch((error) => console.error("Error fetching data:", error));
+        })
+        .catch((error) => console.error("Error deleting user:", error));
+    }
+  };
+
   // Handle filter change
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -62,6 +88,8 @@ const ViewMembers = () => {
       return (
         (!filters.name ||
           entry.name.toLowerCase().includes(filters.name.toLowerCase())) &&
+        (!filters.nic ||
+          entry.nic.toLowerCase().includes(filters.nic.toLowerCase())) &&
         (!filters.nic ||
           entry.nic.toLowerCase().includes(filters.nic.toLowerCase())) &&
         (!filters.dob || entry.dob === filters.dob) &&
@@ -77,7 +105,15 @@ const ViewMembers = () => {
           (entry.agaDivision?.label || entry.agaDivision || "")
             .toLowerCase()
             .includes(filters.agaDivision.toLowerCase())) &&
-        (!filters.priority || entry.priority === filters.priority)
+        (!filters.priority || entry.priority === filters.priority) &&
+        (!filters.RegID ||
+          entry.RegID.toLowerCase().includes(filters.RegID.toLowerCase())) &&
+        (!filters.politicalPartyId ||
+          entry.politicalPartyId.includes(filters.politicalPartyId)) &&
+        (!filters.region ||
+          (entry.region?.label || entry.region || "")
+            .toLowerCase()
+            .includes(filters.region.toLowerCase()))
       );
     });
     setFilteredData(filtered);
@@ -100,6 +136,30 @@ const ViewMembers = () => {
   const handleColumnChange = (e) => {
     const { name, checked } = e.target;
     setSelectedColumns({ ...selectedColumns, [name]: checked });
+  };
+
+  const handleDownloadNumberList = () => {
+    // Extract mobile numbers
+    const rows = filteredData.map((entry) => [
+      entry.designation || "-",
+      entry.mobile1 || "-",
+      entry.mobile2 || "-",
+    ]);
+
+    // Prepare CSV content
+    const csvContent =
+      "designation\n" +
+      rows
+        .flatMap((row) => row.slice(1).filter((num) => num !== "-"))
+        .join("\n");
+
+    // Create a Blob and download the CSV
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "number_list.csv";
+    link.click();
   };
 
   // Download PDF
@@ -269,6 +329,26 @@ const ViewMembers = () => {
           <div className="col-md-3 mt-2">
             <input
               type="text"
+              name="RegID"
+              value={filters.RegID}
+              onChange={handleFilterChange}
+              placeholder="RegID"
+              className="form-control"
+            />
+          </div>
+          <div className="col-md-3 mt-2">
+            <input
+              type="text"
+              name="region"
+              value={filters.region}
+              onChange={handleFilterChange}
+              placeholder="wdikh"
+              className="form-control custom-font"
+            />
+          </div>
+          <div className="col-md-3 mt-2">
+            <input
+              type="text"
               name="poolingBooth"
               value={filters.poolingBooth}
               onChange={handleFilterChange}
@@ -276,6 +356,7 @@ const ViewMembers = () => {
               className="form-control custom-font"
             />
           </div>
+
           <div className="col-md-3 mt-2">
             <input
               type="text"
@@ -296,7 +377,7 @@ const ViewMembers = () => {
               className="form-control custom-font"
             />
           </div>
-          <div className="col-md-3 mt-2">
+          {/* <div className="col-md-3 mt-2">
             <input
               type="text"
               name="agaDivision"
@@ -305,7 +386,8 @@ const ViewMembers = () => {
               placeholder="Political Party Number"
               className="form-control "
             />
-          </div>
+          </div> */}
+
           <div className="col-md-3 mt-2">
             <select
               name="m%uqL;dj"
@@ -323,6 +405,18 @@ const ViewMembers = () => {
               <option value="5">5</option>
             </select>
           </div>
+
+          <div className="col-md-3 mt-2">
+            <input
+              type="text"
+              name="politicalPartyId"
+              value={filters.politicalPartyId}
+              onChange={handleFilterChange}
+              placeholder="Political Party ID"
+              className="form-control"
+            />
+          </div>
+
           <div className="col-md-3 mt-2">
             <button
               className="btn btn-primary btn-sm mt-1 "
@@ -421,10 +515,13 @@ const ViewMembers = () => {
           Download as PDF
         </button>
         <button
-          className="btn btn-secondary"
+          className="btn btn-secondary me-2"
           onClick={handleDownloadAddressPDF}
         >
           Download Address
+        </button>
+        <button className="btn btn-info" onClick={handleDownloadNumberList}>
+          Download Number List
         </button>
       </div>
 
@@ -512,6 +609,12 @@ const ViewMembers = () => {
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setModalData(null)}>
             Close
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => handleDeleteUser(modalData.nic)}
+          >
+            Delete
           </Button>
         </Modal.Footer>
       </Modal>
