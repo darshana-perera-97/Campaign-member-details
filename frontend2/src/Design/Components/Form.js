@@ -23,6 +23,7 @@ const Form = () => {
   });
 
   const [communityOptions, setCommunityOptions] = useState([]);
+  const [inputValue, setInputValue] = useState("");
 
   // Fetch community options
   React.useEffect(() => {
@@ -113,7 +114,7 @@ const Form = () => {
           <label className="form-label custom-font">iïmQ¾K ku</label>
           <input
             type="text"
-            className="form-control custom-font"
+            className="form-control custom-font px-2"
             name="name"
             value={formData.name}
             onChange={handleChange}
@@ -126,7 +127,7 @@ const Form = () => {
           <label className="form-label custom-font">cd' ye' wxlh</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control px-2"
             name="nic"
             value={formData.nic}
             onChange={handleChange}
@@ -139,11 +140,11 @@ const Form = () => {
           <label className="form-label custom-font">cx.u ÿrl;k wxl 01</label>
           <input
             type="tel"
-            className="form-control custom-font"
+            className="form-control custom-font px-2"
             name="mobile1"
             value={formData.mobile1}
             onChange={handleChange}
-            placeholder="ÿrl;k wxl 01 we;=,;a lrkak"
+            placeholder="ÿrl;k wxl 01 we;=,;a lrkak ^7)))))))))&"
             required
           />
         </div>
@@ -152,7 +153,7 @@ const Form = () => {
           <label className="form-label custom-font">jÜia-wema wxlh</label>
           <input
             type="tel"
-            className="form-control"
+            className="form-control px-2"
             name="whatsapp"
             value={formData.whatsapp}
             onChange={handleChange}
@@ -167,11 +168,11 @@ const Form = () => {
           </label>
           <input
             type="tel"
-            className="form-control custom-font"
+            className="form-control custom-font px-2"
             name="mobile2"
             value={formData.mobile2}
             onChange={handleChange}
-            placeholder="ÿrl;k wxl 02 we;=,;a lrkak"
+            placeholder="ÿrl;k wxl 02 we;=,;a lrkak ^7)))))))))&"
           />
         </div>
 
@@ -181,7 +182,7 @@ const Form = () => {
           </label>
           <input
             type="tel"
-            className="form-control custom-font"
+            className="form-control custom-font px-2"
             name="homeNumber"
             value={formData.homeNumber}
             onChange={handleChange}
@@ -218,7 +219,7 @@ const Form = () => {
           <input
             type="text"
             required
-            className="form-control"
+            className="form-control px-2"
             name="politicalPartyId"
             value={formData.politicalPartyId}
             onChange={handleChange}
@@ -235,19 +236,23 @@ const Form = () => {
             required
             onChange={(option) => handleSelectChange("region", option)}
             isSearchable
+            getOptionLabel={(e) => e.label} // Ensures search functionality works properly
             className="custom-font"
             placeholder="wdikh f;darkak"
           />
         </div>
+
         <div className="mb-3">
-          <label className="form-label custom-font">fmd,sx nQ;a</label>
+          <label className="form-label custom-font">
+            m%dfoaYSh f,alï ld¾hd,h
+          </label>
           <Select
-            options={poolingOptions}
+            options={agaOptions}
             required
+            onChange={(option) => handleSelectChange("agaDivision", option)}
             className="custom-font"
-            onChange={(option) => handleSelectChange("poolingBooth", option)}
             isSearchable
-            placeholder="fmd,sx nQ;a wxlh f;darkak"
+            placeholder="m%dfoaYSh f,alï ld¾hd,h f;darkak"
           />
         </div>
 
@@ -264,16 +269,14 @@ const Form = () => {
         </div>
 
         <div className="mb-3">
-          <label className="form-label custom-font">
-            m%dfoaYSh f,alï ld¾hd,h
-          </label>
+          <label className="form-label custom-font">Pkao uOHia:dkh</label>
           <Select
-            options={agaOptions}
+            options={poolingOptions}
             required
-            onChange={(option) => handleSelectChange("agaDivision", option)}
             className="custom-font"
+            onChange={(option) => handleSelectChange("poolingBooth", option)}
             isSearchable
-            placeholder="m%dfoaYSh f,alï ld¾hd,h f;darkak"
+            placeholder="Pkao uOHia:dkh wxlh f;darkak"
           />
         </div>
 
