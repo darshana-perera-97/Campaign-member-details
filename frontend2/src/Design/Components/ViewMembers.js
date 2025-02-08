@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button } from "react-bootstrap";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import Select from "react-select";
 import API_BASE_URL from "../baseURL";
 
 const ViewMembers = () => {
@@ -13,6 +14,7 @@ const ViewMembers = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editableData, setEditableData] = useState(null);
   const [communityOptions, setCommunityOptions] = useState([]);
+  const [communities, setCommunities] = useState([]);
 
   const [filters, setFilters] = useState({
     name: "",
@@ -44,6 +46,23 @@ const ViewMembers = () => {
   });
   const [modalData, setModalData] = useState(null); // Data for View More modal
 
+  useEffect(() => {
+    // Fetch communities data from API
+    fetch("http://localhost:5001/communities")
+      .then((response) => response.json())
+      .then((data) => {
+        // Prepare community options for react-select
+        const options = data.map((community) => ({
+          value: community.name,
+          label: `${community.name} - ${community.gsDivision} - ${community.agaDivision}`,
+        }));
+        setCommunities(options);
+      })
+      .catch((error) => {
+        console.error("Error fetching communities data:", error);
+      });
+  }, []);
+
   // Fetch saved data from the server
   useEffect(() => {
     fetch(`${API_BASE_URL}/data`)
@@ -69,6 +88,15 @@ const ViewMembers = () => {
       })
       .catch((error) => console.error("Error fetching communities:", error));
   }, []);
+
+  const handleMultiSelectChange = (selectedOptions) => {
+    // Update the selected communities in editable data
+    const selectedCommunities = selectedOptions.map((option) => option.value);
+    setEditableData({
+      ...editableData,
+      connectivity: selectedCommunities,
+    });
+  };
 
   const handleUpdateUser = () => {
     fetch(`${API_BASE_URL}/update-user/${editableData.nic}`, {
@@ -319,7 +347,6 @@ const ViewMembers = () => {
       }}
     >
       <h2 className="text-center mb-5 mt-3 card-heading">Saved Form Data</h2>
-
       {/* Filter Inputs */}
       <div className="mb-5">
         <div className="row">
@@ -478,7 +505,6 @@ const ViewMembers = () => {
           </div>
         </div>
       </div>
-
       {/* Table */}
       <table className="table table-bordered table-striped table-hover">
         <thead>
@@ -523,7 +549,6 @@ const ViewMembers = () => {
           )}
         </tbody>
       </table>
-
       {/* Pagination */}
       <div className="d-flex justify-content-center mt-3">
         <nav>
@@ -546,7 +571,6 @@ const ViewMembers = () => {
           </ul>
         </nav>
       </div>
-
       {/* Download Buttons */}
       <div className="mt-3">
         <button
@@ -565,7 +589,6 @@ const ViewMembers = () => {
           Download Number List
         </button>
       </div>
-
       {/* Modal for PDF Column Selection */}
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
@@ -597,7 +620,6 @@ const ViewMembers = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-
       {/* Modal for View More */}
       <Modal show={!!modalData} onHide={() => setModalData(null)}>
         <Modal.Header closeButton>
@@ -615,82 +637,41 @@ const ViewMembers = () => {
                         "mobile2",
                         "homeNumber",
                         "priority",
-                        "communities",
-                        "connectivity",
+                        // "communities",
+                        // "connectivity",
                         "politicalPartyId",
                       ].includes(key)
                     )
                     .map(([key, value]) => (
                       <tr key={key}>
                         <td>{key}</td>
-                        <td>
-                          {key === "connectivity" ? (
-                            // Dropdown for connectivity
+                        <td
+                          className={
+                            ["nic", "RegID"].includes(key) ? "" : "custom-font"
+                          }
+                        >
+                          {key === "priority" ? (
                             <select
                               className="form-control custom-font"
-                              name="connectivity"
-                              value={value?.value || ""}
+                              value={value || ""}
                               onChange={(e) =>
                                 setEditableData({
                                   ...editableData,
-                                  connectivity: {
-                                    value: e.target.value,
-                                    label: e.target.value,
-                                  },
+                                  priority: e.target.value,
                                 })
                               }
                             >
-                              <option value="">f;darkak</option>
-                              {communityOptions.map((option, idx) => (
-                                <option key={idx} value={option.value}>
-                                  {option.label}
+                              <option value="5">m%uqL;dj f;darkak</option>
+                              {[1, 2, 3, 4, 5].map((num) => (
+                                <option key={num} value={num}>
+                                  {num}
                                 </option>
                               ))}
                             </select>
-                          ) : Array.isArray(value) ? (
-                            // Handle arrays (like communities)
-                            value.map((item, idx) => (
-                              <input
-                                key={idx}
-                                type="text"
-                                className="form-control"
-                                value={item.label || ""}
-                                onChange={(e) => {
-                                  const updatedArray = [...value];
-                                  updatedArray[idx] = {
-                                    ...updatedArray[idx],
-                                    label: e.target.value,
-                                    value: e.target.value,
-                                  };
-                                  setEditableData({
-                                    ...editableData,
-                                    [key]: updatedArray,
-                                  });
-                                }}
-                              />
-                            ))
-                          ) : typeof value === "object" && value !== null ? (
-                            // Handle objects (like politicalPartyId)
-                            <input
-                              type="text"
-                              className="form-control"
-                              value={value.label || ""}
-                              onChange={(e) =>
-                                setEditableData({
-                                  ...editableData,
-                                  [key]: {
-                                    ...value,
-                                    label: e.target.value,
-                                    value: e.target.value,
-                                  },
-                                })
-                              }
-                            />
                           ) : (
-                            // Handle normal text fields
                             <input
                               type="text"
-                              className="form-control"
+                              className="form-control custom-font"
                               value={value || ""}
                               onChange={(e) =>
                                 setEditableData({
@@ -714,10 +695,16 @@ const ViewMembers = () => {
                 {Object.entries(modalData).map(([key, value]) => (
                   <tr key={key}>
                     <td>{key}</td>
-                    <td>
+                    <td
+                      className={
+                        ["nic", "RegID"].includes(key) ? "" : "custom-font"
+                      }
+                    >
                       {Array.isArray(value)
                         ? value.map((item, idx) => (
-                            <div key={idx}>{item.label || item.value}</div>
+                            <div key={idx} className="custom-font">
+                              {item.label || item.value}
+                            </div>
                           ))
                         : typeof value === "object" && value !== null
                         ? value.label || value.value
@@ -766,6 +753,7 @@ const ViewMembers = () => {
           )}
         </Modal.Footer>
       </Modal>
+      ;
     </div>
   );
 };
