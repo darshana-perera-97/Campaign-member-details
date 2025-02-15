@@ -434,14 +434,13 @@ export const gsOptions = [
 ];
 
 export const agaOptions = [
-  { value: "001 - uyjej", label: "001 - uyjej" },
-  { value: "002 - kd;a;kaäh", label: "002 - kd;a;kaäh" },
-  { value: "003 - udoïfma", label: "003 - udoïfma" },
+  { value: "01 - fjkakmamqj", label: "01 - fjkakmamqj" },
+  { value: "02 - okafldgqj", label: "02 - okafldgqj" },
 ];
 export const region = [
   { value: "y,dj;", label: "y,dj;", sub: "Chilaw" },
   { value: "kd;a;kaäh", label: "kd;a;kaäh", sub: "Nattandiya" },
-  { value: "fjkakmamqj", label: "fjkakmamqj", sub: "Weníppuwa" },
-  { value: "wdrÉÑlÜgqj", label: "wdrÉÑlÜgqj", sub: "A¾chchikattuwa" },
+  { value: "fjkakmamqj", label: "fjkakmamqj", sub: "Wenmappuwa" },
+  { value: "wdKuvqj", label: "wdKuvqj", sub: "Anamaduwa" },
   { value: "mq;a;,u", label: "mq;a;,u", sub: "Puttalm" },
 ];
