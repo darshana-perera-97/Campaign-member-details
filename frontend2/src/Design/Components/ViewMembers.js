@@ -633,6 +633,7 @@ const ViewMembers = () => {
                   {Object.entries(editableData)
                     .filter(([key]) =>
                       [
+                        "name",
                         "mobile1",
                         "mobile2",
                         "homeNumber",
