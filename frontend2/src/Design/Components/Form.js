@@ -145,7 +145,6 @@ const Form = () => {
             value={formData.mobile1}
             onChange={handleChange}
             placeholder="ÿrl;k wxl 01 we;=,;a lrkak ^7)))))))))&"
-            required
           />
         </div>
 
@@ -158,7 +157,6 @@ const Form = () => {
             value={formData.whatsapp}
             onChange={handleChange}
             placeholder="WhatsApp contact number"
-            required
           />
         </div>
 
