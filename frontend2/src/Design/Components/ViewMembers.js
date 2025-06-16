@@ -4,6 +4,7 @@ import { Modal, Button } from "react-bootstrap";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import Select from "react-select";
+import { gsOptions } from "./data";
 import API_BASE_URL from "../baseURL";
 
 const ViewMembers = () => {
@@ -426,13 +427,28 @@ const ViewMembers = () => {
           </div>
 
           <div className="col-md-3 mt-2">
-            <input
+            {/* <input
               type="text"
               name="gsDivision"
               value={filters.gsDivision}
               onChange={handleFilterChange}
               placeholder=".%dufiajd jiu"
               className="form-control custom-font"
+            /> */}
+            <Select
+              options={gsOptions}
+              name="gsDivision"
+              className="custom-font"
+              isClearable
+              placeholder=".%dufiajd jiu"
+              value={
+                filters.gsDivision
+                  ? gsOptions.find((o) => o.value === filters.gsDivision)
+                  : null
+              }
+              onChange={(opt) =>
+                setFilters({ ...filters, gsDivision: opt ? opt.value : "" })
+              }
             />
           </div>
           <div className="col-md-3 mt-2">
