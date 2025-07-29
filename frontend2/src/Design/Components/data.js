@@ -323,6 +323,10 @@ export const poolingOptions = [
     value: "80' y,d$fjka jElv YS% r;kfcda;s m%d:ñl úÿy,",
     label: "80' y,d$fjka jElv YS% r;kfcda;s m%d:ñl úÿy,",
   },
+  {
+    value: "81' y,d$fjka$Y%S rdyq, m%d:ñl úoHd,h - ¨Kqú,",
+    label: "81' y,d$fjka$Y%S rdyq, m%d:ñl úoHd,h - ¨Kqú,",
+  },
 ];
 export const gsOptions = [
   {
@@ -337,7 +341,10 @@ export const gsOptions = [
     value: "fjka03' wxl 467 î W;=re isß.ïm,",
     label: "fjka03' wxl 467 î W;=re isß.ïm,",
   },
-  { value: "fjka04' wxl 467 iS Wodisß.u", label: "fjka04' wxl 467 iS Wodisß.u" },
+  {
+    value: "fjka04' wxl 467 iS Wodisß.u",
+    label: "fjka04' wxl 467 iS Wodisß.u",
+  },
   {
     value: "fjka05' wxl 467 ã ueo ¨Kqú,",
     label: "fjka05' wxl 467 ã ueo ¨Kqú,",
